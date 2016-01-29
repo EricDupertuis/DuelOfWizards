@@ -127,6 +127,7 @@ gameState.prototype = {
     handleCombatPhase: function() {
         _.map(_.zip(this.players[0].combatOrderedHand, this.players[1].combatOrderedHand), function(a) {
             a[0].effect(this.players[0], a[1]);
+            a[1].effect(this.players[1], a[0]);
         }, this);
 
         this.gameState = "error";
