@@ -4,6 +4,8 @@ var STATE_PICK = "pick";
 var STATE_ORDER = "order";
 var STATE_COMBAT = "combat";
 
+var FACTIONS = ["Faction0", "Faction1"];
+
 var PhaserGame = function () {
     this.config = null;
     this.players = [];
@@ -31,6 +33,7 @@ var PhaserGame = function () {
 PhaserGame.prototype = {
     init: function () {
         //Register main keys
+        // TODO: add 5th card
         this.players[0].keys[0] = game.input.keyboard.addKey(Phaser.Keyboard.Q);
         this.players[0].keys[1] = game.input.keyboard.addKey(Phaser.Keyboard.W);
         this.players[0].keys[2] = game.input.keyboard.addKey(Phaser.Keyboard.E);
@@ -47,6 +50,9 @@ PhaserGame.prototype = {
         this.currentPlayer = this.players[0];
 
         this.gameState = STATE_PICK;
+
+        this.players[0].faction = FACTIONS[0];
+        this.players[1].faction = FACTIONS[1];
     },
 
     preload: function () {
@@ -117,13 +123,21 @@ PhaserGame.prototype = {
         }
     },
 
+    handleCombatPhase: function() {
+        _.map(_.zip(this.players[0].combatOrderedHand, this.players[1].combatOrderedHand), function(a) {
+            console.log("Fight between here and here: " + a);
+        });
+
+        this.gameState = "error";
+    },
+
     update: function () {
         if (this.gameState == STATE_PICK) {
             this.handlePickPhase();
         } else if (this.gameState == STATE_ORDER) {
             this.handleOrderPhase();
         } else if (this.gameState == STATE_COMBAT) {
-            console.log("COMBAT!!!");
+            this.handleCombatPhase();
         } else {
             console.log("Unknown state: " + this.gameState);
         }
