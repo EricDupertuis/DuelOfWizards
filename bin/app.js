@@ -26,6 +26,9 @@ PhaserGame.prototype = {
         this.players[1].keys[1] = game.input.keyboard.addKey(Phaser.Keyboard.U);
         this.players[1].keys[2] = game.input.keyboard.addKey(Phaser.Keyboard.I);
         this.players[1].keys[3] = game.input.keyboard.addKey(Phaser.Keyboard.O);
+
+        this.players[0].chosenAttack = null;
+        this.players[1].chosenAttack = null;
     },
 
     preload: function () {
@@ -36,17 +39,24 @@ PhaserGame.prototype = {
     },
 
     update: function () {
-        this.players[0].keys.forEach(function(entry){
+        this.players[0].keys.forEach(function(entry, i){
             if (entry.justDown) {
-                console.log(entry);
+                this.players[0].chosenAttack = i;
             }
-        });
+        }, this);
 
-        this.players[1].keys.forEach(function(entry){
+        this.players[1].keys.forEach(function(entry, i){
             if (entry.justDown) {
-                console.log(entry);
+                this.players[1].chosenAttack = i;
             }
-        });
+        }, this);
+
+
+        if (this.players[0].chosenAttack != null && this.players[1].chosenAttack != null) {
+            console.log("Chosen attacks: " + this.players[0].chosenAttack + ' ' + this.players[1].chosenAttack);
+            this.players[0].chosenAttack = null;
+            this.players[1].chosenAttack = null;
+        }
     }
 };
 
