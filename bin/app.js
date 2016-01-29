@@ -1,5 +1,9 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example');
 
+var STATE_PICK = 0;
+var STATE_ORDER = 1;
+var STATE_COMBAT = 2;
+
 var PhaserGame = function () {
     this.config = null;
     this.players = [];
@@ -7,10 +11,11 @@ var PhaserGame = function () {
     this.players[1] = [];
     this.currentPlayer = null;
 
-    this.players[0].keys = [];
-    this.players[1].keys = [];
-    this.players[0].hand = [];
-    this.players[1].hand = [];
+    this.players.forEach(function(player) {
+        player.keys = [];
+        player.hand = [];
+        player.combatOrderedHand = [];
+    });
 
     this.booster = null;
 
@@ -40,6 +45,8 @@ PhaserGame.prototype = {
         this.players[1].chosenAttack = null;
 
         this.currentPlayer = this.players[0];
+
+        this.gameState = STATE_PICK;
     },
 
     preload: function () {
@@ -55,9 +62,21 @@ PhaserGame.prototype = {
         console.log("Booster: " + this.booster);
         console.log("Player 0's hand: " + this.players[0].hand);
         console.log("Player 1's hand: " + this.players[1].hand);
+
+        console.log("Player 0's combat set: " + this.players[0].combatOrderedHand);
+        console.log("Player 1's combat set: " + this.players[1].combatOrderedHand);
     },
 
-    update: function () {
+
+    clearAllKeypresses: function() {
+        this.players.forEach(function (player) {
+            player.keys.forEach(function (entry, i) {
+                entry.justDown;
+            }, this);
+        }, this);
+    },
+
+    handlePickPhase: function () {
         this.currentPlayer.keys.forEach(function (entry, i) {
             if (entry.justDown) {
                 if (i < this.booster.length) {
@@ -69,14 +88,46 @@ PhaserGame.prototype = {
             }
         }, this);
 
-        // Clear otherPlayer key presses because Phaser is retarded
-        this.otherPlayer(this.currentPlayer).keys.forEach(function (entry, i) {
-            entry.justDown;
+        if (this.booster.length == 0) {
+            this.gameState = STATE_ORDER;
+        }
+    },
+
+    handleOrderPhase: function() {
+        this.currentPlayer.keys.forEach(function (entry, i) {
+            if (entry.justDown) {
+                if (i < this.currentPlayer.hand.length) {
+                    this.currentPlayer.combatOrderedHand.push(this.currentPlayer.hand[i]);
+                    this.currentPlayer.hand.splice(i, 1);
+                    this.debugState();
+                }
+            }
         }, this);
 
-        if (this.booster.length == 0) {
-            this.debugState();
+
+        /* If the hand is empty switch to other player. If both hands are
+         * empty, switch to combat phase. */
+        if (this.currentPlayer.hand.length == 0) {
+            if (this.otherPlayer(this.currentPlayer).hand.length == 0) {
+                this.gameState = STATE_COMBAT;
+            } else {
+                this.currentPlayer = this.otherPlayer(this.currentPlayer);
+            }
         }
+    },
+
+    update: function () {
+        if (this.gameState == STATE_PICK) {
+            this.handlePickPhase();
+        } else if (this.gameState == STATE_ORDER) {
+            this.handleOrderPhase();
+        } else if (this.gameState == STATE_COMBAT) {
+            console.log("COMBAT!!!");
+        } else {
+            console.log("Unknown state: " + this.gameState);
+        }
+
+        this.clearAllKeypresses();
     },
 
     otherPlayer: function (player) {
@@ -88,7 +139,7 @@ PhaserGame.prototype = {
     },
 
     createBooster: function (deck) {
-        return _.sample(deck, 10);
+        return _.sample(deck, 4);
     }
 };
 
