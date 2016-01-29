@@ -5,12 +5,12 @@ var PhaserGame = function () {
     this.players = [];
     this.players[0] = [];
     this.players[1] = [];
-    this.combos = [];
+    this.currentPlayer = null;
+
     this.players[0].keys = [];
     this.players[1].keys = [];
     this.players[0].hand = this.dealHand();
     this.players[1].hand = this.dealHand();
-    this.turn = 1;
 };
 
 
@@ -31,6 +31,8 @@ PhaserGame.prototype = {
 
         this.players[0].chosenAttack = null;
         this.players[1].chosenAttack = null;
+
+        this.currentPlayer = this.players[0];
     },
 
     preload: function () {
@@ -41,23 +43,33 @@ PhaserGame.prototype = {
     },
 
     update: function () {
-        this.players.forEach(function(player) {
-            player.keys.forEach(function(entry, i){
-                if (entry.justDown) {
-                    player.chosenAttack = i;
-                }
-            }, this);
+        this.currentPlayer.keys.forEach(function(entry, i){
+            if (entry.justDown) {
+                this.currentPlayer.chosenAttack = i;
+                this.currentPlayer = this.otherPlayer(this.currentPlayer);
+            }
+        }, this);
+
+        // Clear otherPlayer key presses because Phaser is retarded
+        this.otherPlayer(this.currentPlayer).keys.forEach(function(entry, i){
+            entry.justDown;
         }, this);
 
         if (this.players[0].chosenAttack != null && this.players[1].chosenAttack != null) {
             console.log("Chosen attacks: " + this.players[0].hand[this.players[0].chosenAttack] + ' ' + this.players[1].hand[this.players[1].chosenAttack]);
             this.players[0].chosenAttack = null;
             this.players[1].chosenAttack = null;
-            console.log(this.players[0].hand);
-            console.log(this.players[1].hand);
         }
     },
-    
+
+    otherPlayer: function(player) {
+      if (player == this.players[0]) {
+          return this.players[1];
+      } else {
+          return this.players[0];
+      }
+    },
+
     dealHand: function () {
         var result = [];
         for(var i = 0;i < 4; i++) {
