@@ -22,7 +22,7 @@ PhaserGame.prototype = {
         this.players[0].keys[0] = game.input.keyboard.addKey(Phaser.Keyboard.Q);
         this.players[0].keys[1] = game.input.keyboard.addKey(Phaser.Keyboard.W);
         this.players[0].keys[2] = game.input.keyboard.addKey(Phaser.Keyboard.E);
-        this.players[0].keys[3] = game.input.keyboard.addKey(Phaser.Keyboard.R);
+        this.players[0].keys[3] = game.input.keyboard.addKey(Phaser.Keyboard.T);
 
         this.players[1].keys[0] = game.input.keyboard.addKey(Phaser.Keyboard.Y);
         this.players[1].keys[1] = game.input.keyboard.addKey(Phaser.Keyboard.U);
