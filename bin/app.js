@@ -1,8 +1,8 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example');
 
-var STATE_PICK = 0;
-var STATE_ORDER = 1;
-var STATE_COMBAT = 2;
+var STATE_PICK = "pick";
+var STATE_ORDER = "order";
+var STATE_COMBAT = "combat";
 
 var PhaserGame = function () {
     this.config = null;
@@ -58,6 +58,7 @@ PhaserGame.prototype = {
     },
 
     debugState: function () {
+        console.log("State: " + this.gameState);
         console.log("Deck: " + this.deck);
         console.log("Booster: " + this.booster);
         console.log("Player 0's hand: " + this.players[0].hand);
