@@ -36,9 +36,17 @@ PhaserGame.prototype = {
     },
 
     update: function () {
-        if (this.players[1].keys[3].justDown) {
-            console.log('lol');
-        }
+        this.players[0].keys.forEach(function(entry){
+            if (entry.justDown) {
+                console.log(entry);
+            }
+        });
+
+        this.players[1].keys.forEach(function(entry){
+            if (entry.justDown) {
+                console.log(entry);
+            }
+        });
     }
 };
 
