@@ -89,7 +89,7 @@ PhaserGame.prototype = {
             }
         }, this);
 
-        if (this.booster.length == 0) {
+        if (this.booster.length <= 1) {
             this.gameState = STATE_ORDER;
         }
     },
@@ -140,7 +140,7 @@ PhaserGame.prototype = {
     },
 
     createBooster: function (deck) {
-        return _.sample(deck, 4);
+        return _.sample(deck, 5);
     }
 };
 
