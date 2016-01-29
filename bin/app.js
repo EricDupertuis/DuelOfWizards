@@ -9,8 +9,10 @@ var PhaserGame = function () {
 
     this.players[0].keys = [];
     this.players[1].keys = [];
-    this.players[0].hand = this.dealHand();
-    this.players[1].hand = this.dealHand();
+    this.players[0].hand = [];
+    this.players[1].hand = [];
+
+    this.deck = [1, 2, 3, 4, 5];
 };
 
 
@@ -42,11 +44,21 @@ PhaserGame.prototype = {
 
     },
 
+    debugState: function () {
+        console.log("Deck: " + this.deck);
+        console.log("Player 0's hand: " + this.players[0].hand);
+        console.log("Player 1's hand: " + this.players[1].hand);
+    },
+
     update: function () {
         this.currentPlayer.keys.forEach(function(entry, i){
             if (entry.justDown) {
-                this.currentPlayer.chosenAttack = i;
-                this.currentPlayer = this.otherPlayer(this.currentPlayer);
+                if (i < this.deck.length) {
+                    this.currentPlayer.hand.push(this.deck[i]);
+                    this.deck.splice(i, 1);
+                    this.currentPlayer = this.otherPlayer(this.currentPlayer);
+                    this.debugState();
+                }
             }
         }, this);
 
@@ -55,10 +67,8 @@ PhaserGame.prototype = {
             entry.justDown;
         }, this);
 
-        if (this.players[0].chosenAttack != null && this.players[1].chosenAttack != null) {
-            console.log("Chosen attacks: " + this.players[0].hand[this.players[0].chosenAttack] + ' ' + this.players[1].hand[this.players[1].chosenAttack]);
-            this.players[0].chosenAttack = null;
-            this.players[1].chosenAttack = null;
+        if (this.deck.length == 0) {
+            this.debugState();
         }
     },
 
@@ -69,14 +79,6 @@ PhaserGame.prototype = {
           return this.players[0];
       }
     },
-
-    dealHand: function () {
-        var result = [];
-        for(var i = 0;i < 4; i++) {
-            result[i] = Math.floor((Math.random() * 10) + 1);
-        }
-        return result;
-    }
 };
 
 game.state.add('phaser-example', PhaserGame, true);
