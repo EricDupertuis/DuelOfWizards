@@ -4,4 +4,5 @@ game.state.add("Menu", menuState);
 game.state.add("Game", gameState);
 game.state.add("End", endState);
 
-game.state.start('Menu');
+//@TODO don't forget to switch back to menu
+game.state.start('Game');

@@ -20,10 +20,13 @@ var gameState = function () {
     this.booster = null;
 
     //Just temp to simulate deck shuffle
+    this.testCard = this.createCard('test', FACTIONS[0], function(player, opponentCard){
+        console.log(player, opponentCard);
+    });
     this.deck = [];
 
     for (var i = 1; i <= 30; i++) {
-        this.deck.push(i);
+        this.deck.push(this.testCard);
     }
 };
 
@@ -63,7 +66,7 @@ gameState.prototype = {
 
     debugState: function () {
         console.log("State: " + this.gameState);
-        console.log("Deck: " + this.deck);
+        console.log("Deck: " + this.deck[0].name);
         console.log("Booster: " + this.booster);
         console.log("Player 0's hand: " + this.players[0].hand);
         console.log("Player 1's hand: " + this.players[1].hand);
@@ -123,8 +126,8 @@ gameState.prototype = {
 
     handleCombatPhase: function() {
         _.map(_.zip(this.players[0].combatOrderedHand, this.players[1].combatOrderedHand), function(a) {
-            console.log("Fight between here and here: " + a);
-        });
+            a[0].effect(this.players[0], a[1]);
+        }, this);
 
         this.gameState = "error";
     },
@@ -153,5 +156,14 @@ gameState.prototype = {
 
     createBooster: function (deck) {
         return _.sample(deck, 5);
+    },
+
+    // Effect is a function taking player and opponent card as parameters
+    createCard: function(name, faction, effect) {
+        return {
+            "name": name,
+            "faction": faction,
+            "effect": effect
+        }
     }
 };
