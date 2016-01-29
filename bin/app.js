@@ -12,6 +12,8 @@ var PhaserGame = function () {
     this.players[0].hand = [];
     this.players[1].hand = [];
 
+    this.booster = null;
+
     //Just temp to simulate deck shuffle
     this.deck = [];
 
@@ -44,11 +46,13 @@ PhaserGame.prototype = {
     },
 
     create: function () {
+        this.booster = this.createBooster(this.deck);
         this.debugState();
     },
 
     debugState: function () {
         console.log("Deck: " + this.deck);
+        console.log("Booster: " + this.booster);
         console.log("Player 0's hand: " + this.players[0].hand);
         console.log("Player 1's hand: " + this.players[1].hand);
     },
@@ -56,9 +60,9 @@ PhaserGame.prototype = {
     update: function () {
         this.currentPlayer.keys.forEach(function (entry, i) {
             if (entry.justDown) {
-                if (i < this.deck.length) {
-                    this.currentPlayer.hand.push(this.deck[i]);
-                    this.deck.splice(i, 1);
+                if (i < this.booster.length) {
+                    this.currentPlayer.hand.push(this.booster[i]);
+                    this.booster.splice(i, 1);
                     this.currentPlayer = this.otherPlayer(this.currentPlayer);
                     this.debugState();
                 }
@@ -70,7 +74,7 @@ PhaserGame.prototype = {
             entry.justDown;
         }, this);
 
-        if (this.deck.length == 0) {
+        if (this.booster.length == 0) {
             this.debugState();
         }
     },
@@ -84,7 +88,7 @@ PhaserGame.prototype = {
     },
 
     createBooster: function (deck) {
-        _.sample(deck, 10);
+        return _.sample(deck, 10);
     }
 };
 
