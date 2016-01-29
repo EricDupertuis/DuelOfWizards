@@ -16,13 +16,14 @@ menuState.prototype = {
         this.startText = game.add.text(
             game.world.centerX,
             game.world.centerY,
-            'Start Game',
+            'Press Q to start game',
             { font: "65px Arial", fill: "#ff0044", align: "center" }
         );
 
         this.startText.anchor.set(0.5);
         this.startText.inputEnabled = true;
 
+        //@TODO Currently Q, next is Any Key
         this.goKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
 
     },

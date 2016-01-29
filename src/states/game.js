@@ -1,6 +1,8 @@
-var STATE_PICK = 0;
-var STATE_ORDER = 1;
-var STATE_COMBAT = 2;
+var STATE_PICK = "pick";
+var STATE_ORDER = "order";
+var STATE_COMBAT = "combat";
+
+var FACTIONS = ["Faction0", "Faction1"];
 
 var gameState = function () {
     this.config = null;
@@ -29,6 +31,7 @@ var gameState = function () {
 gameState.prototype = {
     init: function () {
         //Register main keys
+        // TODO: add 5th card
         this.players[0].keys[0] = game.input.keyboard.addKey(Phaser.Keyboard.Q);
         this.players[0].keys[1] = game.input.keyboard.addKey(Phaser.Keyboard.W);
         this.players[0].keys[2] = game.input.keyboard.addKey(Phaser.Keyboard.E);
@@ -45,6 +48,9 @@ gameState.prototype = {
         this.currentPlayer = this.players[0];
 
         this.gameState = STATE_PICK;
+
+        this.players[0].faction = FACTIONS[0];
+        this.players[1].faction = FACTIONS[1];
     },
 
     preload: function () {
@@ -56,6 +62,7 @@ gameState.prototype = {
     },
 
     debugState: function () {
+        console.log("State: " + this.gameState);
         console.log("Deck: " + this.deck);
         console.log("Booster: " + this.booster);
         console.log("Player 0's hand: " + this.players[0].hand);
@@ -86,7 +93,7 @@ gameState.prototype = {
             }
         }, this);
 
-        if (this.booster.length == 0) {
+        if (this.booster.length <= 1) {
             this.gameState = STATE_ORDER;
         }
     },
@@ -114,13 +121,21 @@ gameState.prototype = {
         }
     },
 
+    handleCombatPhase: function() {
+        _.map(_.zip(this.players[0].combatOrderedHand, this.players[1].combatOrderedHand), function(a) {
+            console.log("Fight between here and here: " + a);
+        });
+
+        this.gameState = "error";
+    },
+
     update: function () {
         if (this.gameState == STATE_PICK) {
             this.handlePickPhase();
         } else if (this.gameState == STATE_ORDER) {
             this.handleOrderPhase();
         } else if (this.gameState == STATE_COMBAT) {
-            console.log("COMBAT!!!");
+            this.handleCombatPhase();
         } else {
             console.log("Unknown state: " + this.gameState);
         }
@@ -137,6 +152,6 @@ gameState.prototype = {
     },
 
     createBooster: function (deck) {
-        return _.sample(deck, 4);
+        return _.sample(deck, 5);
     }
 };
