@@ -1,42 +1,43 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example');
 
 var PhaserGame = function () {
-    this.player1 = null;
-    this.player2 = null;
+    this.config;
+    this.players = [];
+    this.players[0] = [];
+    this.players[1] = [];
     this.combos = [];
-    this.keys = [];
+    this.players[0].keys = [];
+    this.players[1].keys = [];
     this.turn = 1;
 };
 
 
 PhaserGame.prototype = {
     init: function () {
-        this.physics.startSystem(Phaser.Physics.ARCADE);
+        game.load.json('config', 'config/config.json');
 
         //Register main keys
-        this.keys.One = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-        this.keys.Two = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
-        this.keys.Three = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
-        this.keys.Four = game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+        this.players[0].keys[0] = game.input.keyboard.addKey(Phaser.Keyboard.Q);
+        this.players[0].keys[1] = game.input.keyboard.addKey(Phaser.Keyboard.W);
+        this.players[0].keys[2] = game.input.keyboard.addKey(Phaser.Keyboard.E);
+        this.players[0].keys[3] = game.input.keyboard.addKey(Phaser.Keyboard.R);
+
+        this.players[1].keys[0] = game.input.keyboard.addKey(Phaser.Keyboard.Y);
+        this.players[1].keys[1] = game.input.keyboard.addKey(Phaser.Keyboard.U);
+        this.players[1].keys[2] = game.input.keyboard.addKey(Phaser.Keyboard.I);
+        this.players[1].keys[3] = game.input.keyboard.addKey(Phaser.Keyboard.O);
     },
 
     preload: function () {
-
     },
 
     create: function () {
-        console.log(this);
+
     },
 
     update: function () {
-        if (this.keys.One.justDown) {
-            console.log('1');
-        } else if (this.keys.Two.justDown) {
-            console.log('2');
-        } else if (this.keys.Three.justDown) {
-            console.log('3');
-        } else if (this.keys.Four.justDown) {
-            console.log('4');
+        if (this.players[1].keys[3].justDown) {
+            console.log('lol');
         }
     }
 };
