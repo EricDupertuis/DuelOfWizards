@@ -12,21 +12,24 @@ var PhaserGame = function () {
     this.players[0].hand = [];
     this.players[1].hand = [];
 
-    this.deck = [1, 2, 3, 4, 5];
+    //Just temp to simulate deck shuffle
+    this.deck = [];
+
+    for (var i = 1; i <= 30; i++) {
+        this.deck.push(i);
+    }
 };
 
 
 PhaserGame.prototype = {
     init: function () {
-        game.load.json('config', 'config/config.json');
-
         //Register main keys
         this.players[0].keys[0] = game.input.keyboard.addKey(Phaser.Keyboard.Q);
         this.players[0].keys[1] = game.input.keyboard.addKey(Phaser.Keyboard.W);
         this.players[0].keys[2] = game.input.keyboard.addKey(Phaser.Keyboard.E);
         this.players[0].keys[3] = game.input.keyboard.addKey(Phaser.Keyboard.T);
 
-        this.players[1].keys[0] = game.input.keyboard.addKey(Phaser.Keyboard.Y);
+        this.players[1].keys[0] = game.input.keyboard.addKey(Phaser.Keyboard.Z);
         this.players[1].keys[1] = game.input.keyboard.addKey(Phaser.Keyboard.U);
         this.players[1].keys[2] = game.input.keyboard.addKey(Phaser.Keyboard.I);
         this.players[1].keys[3] = game.input.keyboard.addKey(Phaser.Keyboard.O);
@@ -41,7 +44,7 @@ PhaserGame.prototype = {
     },
 
     create: function () {
-
+        this.debugState();
     },
 
     debugState: function () {
@@ -51,7 +54,7 @@ PhaserGame.prototype = {
     },
 
     update: function () {
-        this.currentPlayer.keys.forEach(function(entry, i){
+        this.currentPlayer.keys.forEach(function (entry, i) {
             if (entry.justDown) {
                 if (i < this.deck.length) {
                     this.currentPlayer.hand.push(this.deck[i]);
@@ -63,7 +66,7 @@ PhaserGame.prototype = {
         }, this);
 
         // Clear otherPlayer key presses because Phaser is retarded
-        this.otherPlayer(this.currentPlayer).keys.forEach(function(entry, i){
+        this.otherPlayer(this.currentPlayer).keys.forEach(function (entry, i) {
             entry.justDown;
         }, this);
 
@@ -72,13 +75,17 @@ PhaserGame.prototype = {
         }
     },
 
-    otherPlayer: function(player) {
-      if (player == this.players[0]) {
-          return this.players[1];
-      } else {
-          return this.players[0];
-      }
+    otherPlayer: function (player) {
+        if (player == this.players[0]) {
+            return this.players[1];
+        } else {
+            return this.players[0];
+        }
     },
+
+    createBooster: function (deck) {
+        _.sample(deck, 10);
+    }
 };
 
 game.state.add('phaser-example', PhaserGame, true);
