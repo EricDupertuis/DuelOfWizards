@@ -39,18 +39,14 @@ PhaserGame.prototype = {
     },
 
     update: function () {
-        this.players[0].keys.forEach(function(entry, i){
-            if (entry.justDown) {
-                this.players[0].chosenAttack = i;
-            }
-        }, this);
 
-        this.players[1].keys.forEach(function(entry, i){
-            if (entry.justDown) {
-                this.players[1].chosenAttack = i;
-            }
+        this.players.forEach(function(player) {
+            player.keys.forEach(function(entry, i){
+                if (entry.justDown) {
+                    player.chosenAttack = i;
+                }
+            }, this);
         }, this);
-
 
         if (this.players[0].chosenAttack != null && this.players[1].chosenAttack != null) {
             console.log("Chosen attacks: " + this.players[0].chosenAttack + ' ' + this.players[1].chosenAttack);
