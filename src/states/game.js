@@ -12,7 +12,7 @@ createCard = function(name, faction, effect) {
         "name": name,
         "faction": faction,
         "effect": effect
-    }
+    };
 
     res.effect = _.bind(effect, res);
 
@@ -42,27 +42,37 @@ var attackEffect = function(player, opponent, opponentCard) {
     if (opponent.score.powerLevel < 0) {
         opponent.score.powerLevel = 0;
     }
-}
+};
 
 var defenseEffect = function (player, opponent, opponentCard) {
-
+    if (ATTACK_CARDS.indexOf(opponentCard) == -1) {
+        return;
+    }
+    if (player.faction == this.faction) {
+        player.score.powerLevel += 2;
+    } else {
+        player.score.powerLevel += 1;
+    }
 };
 
 
 DEFENSE_CARDS = [
     createCard("Team0 defense", FACTIONS[0], defenseEffect),
     createCard("Team1 defense", FACTIONS[1], defenseEffect),
-    createCard("neutral defense", "", defenseEffect),
-]
+    createCard("neutral defense", "", defenseEffect)
+];
 
-DECK = DEFENSE_CARDS.concat([
-    createCard("Team0 up", FACTIONS[0], powerLevelCardEffect),
-    createCard("Team1 up", FACTIONS[1], powerLevelCardEffect),
-    createCard("neutral up", "", powerLevelCardEffect),
+ATTACK_CARDS = [
     createCard("Team0 attack", FACTIONS[0], attackEffect),
     createCard("Team1 attack", FACTIONS[1], attackEffect),
-    createCard("neutral attack", "", attackEffect),
-]);
+    createCard("neutral attack", "", attackEffect)
+];
+
+DECK = ATTACK_CARDS.concat(DEFENSE_CARDS.concat([
+    createCard("Team0 up", FACTIONS[0], powerLevelCardEffect),
+    createCard("Team1 up", FACTIONS[1], powerLevelCardEffect),
+    createCard("neutral up", "", powerLevelCardEffect)
+]));
 
 
 var gameScore = function() {
