@@ -9,12 +9,12 @@ var FACTIONS = ["Faction0", "Faction1"];
 var MAX_POWER_LEVEL = 6;
 
 // Effect is a function taking player and opponent card as parameters
-createCard = function (name, faction, effect) {
+createCard = function (name, faction, effect, imageName) {
     res = {
         "name": name,
         "faction": faction,
         "effect": effect,
-        "imageName": 'characters/Drudru.png'
+        "imageName": imageName,
     };
 
     res.effect = _.bind(effect, res);
@@ -87,28 +87,28 @@ var jockerEffect = function (player, opponentCard) {
 
 
 DEFENSE_CARDS = [
-    createCard("Team0 defense", FACTIONS[0], defenseEffect),
-    createCard("Team1 defense", FACTIONS[1], defenseEffect),
-    createCard("neutral defense", "", defenseEffect)
+    createCard("Team0 defense", FACTIONS[0], defenseEffect, 'characters/Drudru.png'),
+    createCard("Team1 defense", FACTIONS[1], defenseEffect, 'characters/Drudru.png'),
+    createCard("neutral defense", "", defenseEffect, 'characters/Drudru.png')
 ];
 
 ATTACK_CARDS = [
-    createCard("Team0 attack", FACTIONS[0], attackEffect),
-    createCard("Team1 attack", FACTIONS[1], attackEffect),
-    createCard("neutral attack", "", attackEffect)
+    createCard("Team0 attack", FACTIONS[0], attackEffect, 'characters/Satan.png'),
+    createCard("Team1 attack", FACTIONS[1], attackEffect, 'characters/Satan.png'),
+    createCard("neutral attack", "", attackEffect, 'characters/Satan.png')
 ];
 
 ANTIARTIFACT_CARDS = [
-    createCard("antiartifact", "", antiArtifactEffect)
+    createCard("antiartifact", "", antiArtifactEffect, 'antiartifact.jpg')
 ];
 
 DECK = _.union(ANTIARTIFACT_CARDS, ATTACK_CARDS, DEFENSE_CARDS, [
-    createCard("Team0 up", FACTIONS[0], powerLevelCardEffect),
-    createCard("Team1 up", FACTIONS[1], powerLevelCardEffect),
-    createCard("neutral up", "", powerLevelCardEffect),
-    createCard("Team0 artifact", FACTIONS[0], artifactEffect),
-    createCard("Team1 artifact", FACTIONS[1], artifactEffect),
-    createCard("Joker", "", jockerEffect),
+    createCard("Team0 up", FACTIONS[0], powerLevelCardEffect, 'characters/Maya.png'),
+    createCard("Team1 up", FACTIONS[1], powerLevelCardEffect, 'characters/Maya.png'),
+    createCard("neutral up", "", powerLevelCardEffect, 'characters/Maya.png'),
+    createCard("Team0 artifact", FACTIONS[0], artifactEffect, 'robotTest.png'),
+    createCard("Team1 artifact", FACTIONS[1], artifactEffect, 'robotTest.png'),
+    createCard("Joker", "", jockerEffect, 'characters/joker.png'),
 ]);
 
 
