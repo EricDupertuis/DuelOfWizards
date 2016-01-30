@@ -116,7 +116,7 @@ DECK = _.union(ANTIARTIFACT_CARDS, ATTACK_CARDS, DEFENSE_CARDS, [
 
 var gameScore = function () {
     this.powerLevel = 2;
-    this.hasArtifact = true;
+    this.hasArtifact = false;
 };
 
 var gameState = function () {
