@@ -407,11 +407,13 @@ gameState.prototype = {
             player.handImageGroup = game.add.group();
 
             player.hand.forEach(function(card, i){
-                var x = (2 * i +1) * game.world.width/10;
-                var y = 3 * game.world.width / 16;
-                if (player == this.players[1]) {
-                    x = game.world.width - x;
+                var x;
+                if (player == this.players[0]) {
+                    x = (2 * i + 1) * game.world.width/10;
+                } else {
+                    x = (2 * i + 7) * game.world.width/10;
                 }
+                var y = 3 * game.world.width / 16;
                 var image;
 
                 if (player == this.currentPlayer) {
