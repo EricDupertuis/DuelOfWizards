@@ -55,6 +55,19 @@ var defenseEffect = function (player, opponent, opponentCard) {
     }
 };
 
+var artifactEffect = function (player, opponent, opponentCard) {
+    if (ANTIARTIFACT_CARDS.indexOf(opponentCard) != -1) {
+        return;
+    }
+    if (player.faction == this.faction) {
+        player.score.hasArtifact = true;
+    }
+};
+
+var antiArtifactEffect = function (player, opponent, opponentCard) {
+    opponent.score.hasArtifact = false;
+};
+
 var jockerEffect = function (player, opponent, opponentCard) {
     newcard = _.sample(DECK, 1)[0];
     console.log("Joker: " + newcard.name);
@@ -74,17 +87,23 @@ ATTACK_CARDS = [
     createCard("neutral attack", "", attackEffect)
 ];
 
-DECK = ATTACK_CARDS.concat(DEFENSE_CARDS.concat([
+ANTIARTIFACT_CARDS = [
+    createCard("antiartifact", "", antiArtifactEffect)
+];
+
+DECK = _.union(ANTIARTIFACT_CARDS, ATTACK_CARDS, DEFENSE_CARDS, [
     createCard("Team0 up", FACTIONS[0], powerLevelCardEffect),
     createCard("Team1 up", FACTIONS[1], powerLevelCardEffect),
     createCard("neutral up", "", powerLevelCardEffect),
+    createCard("Team0 artifact", FACTIONS[0], artifactEffect),
+    createCard("Team1 artifact", FACTIONS[1], artifactEffect),
     createCard("Joker", "", jockerEffect),
-]));
+]);
 
 
 var gameScore = function() {
     this.powerLevel = 2;
-    this.hasArtifact = true;
+    this.hasArtifact = false;
 };
 
 var gameState = function () {
@@ -150,8 +169,8 @@ gameState.prototype = {
         console.log("Player 0's combat set: " + prettyCards(this.players[0].combatOrderedHand));
         console.log("Player 1's combat set: " + prettyCards(this.players[1].combatOrderedHand));
 
-        console.log("Player 1 score: " + this.players[0].score.powerLevel);
-        console.log("Player 2 score: " + this.players[1].score.powerLevel);
+        console.log("Player 1 score: " + this.players[0].score.powerLevel + ' ' + this.players[0].score.hasArtifact);
+        console.log("Player 2 score: " + this.players[1].score.powerLevel + ' ' + this.players[1].score.hasArtifact);
     },
 
 
