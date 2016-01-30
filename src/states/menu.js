@@ -8,8 +8,9 @@ menuState.prototype = {
         this.goKey = null;
         this.menuEntries = [];
         this.background = null;
-        this.menuEntries.startText = null;
-        this.menuEntries.infoText = null;
+        this.menuEntries[0] = null;
+        this.menuEntries[1] = null;
+        this.selectedMenu = 0;
     },
 
     preload: function() {
@@ -18,30 +19,28 @@ menuState.prototype = {
     },
 
     create: function() {
+        this.goKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.cursors = this.input.keyboard.createCursorKeys();
+
         this.background = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'fog');
         this.background.scale.setTo(2, 2);
         this.background.autoScroll(-20, 0);
 
-        this.startText = game.add.text(
+        this.menuEntries[0] = game.add.text(
             game.world.centerX,
             250,
             'Insert Game Title Here',
             { font: "35px Arial", fill: "#000", align: "center" }
         );
+        this.menuEntries[0].anchor.set(0.5);
 
-        this.startText.anchor.set(0.5);
-
-        this.infoText = game.add.text(
+        this.menuEntries[1] = game.add.text(
             game.world.centerX,
             350,
-            'Insert Game Title Here',
+            'Game instructions',
             { font: "35px Arial", fill: "#000", align: "center" }
         );
-
-        this.infoText.anchor.set(0.5);
-
-        this.goKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        this.cursors = this.input.keyboard.createCursorKeys();
+        this.menuEntries[1].anchor.set(0.5);
     },
 
     update: function() {
@@ -52,9 +51,22 @@ menuState.prototype = {
         */
 
         if (this.cursors.up.justDown) {
-
+            if (this.selectedMenu > 0) {
+                this.selectedMenu -= 1;
+            }
+            console.log(this.selectedMenu);
         } else if (this.cursors.down.justDown) {
-
+            if (this.selectedMenu < this.menuEntries.length - 1) {
+                this.selectedMenu += 1;
+            }
+            console.log(this.selectedMenu);
         }
+
+        this.menuEntries.forEach(function (entry, i) {
+            entry.alpha = 1;
+            if (i != this.selectedMenu) {
+                entry.alpha = DARKEN_ALPHA;
+            }
+        }, this)
     }
 };
