@@ -132,6 +132,7 @@ var gameState = function () {
         player.score = new gameScore();
         player.handImageGroup = null;
         player.hand = [];
+        player.combatOrderedHand = [];
     });
 
     this.booster = null;
@@ -285,7 +286,7 @@ gameState.prototype = {
         }
     },
 
-    update: function () {
+    drawGame: function() {
         if (this.booster != null) {
             if (this.booster.imageGroup) {
                 this.booster.imageGroup.destroy();
@@ -299,16 +300,29 @@ gameState.prototype = {
             }, this);
         }
 
-        if (this.players[0].handImageGroup != null) {
-            this.players[0].handImageGroup.destroy();
-        }
-        this.players[0].handImageGroup = game.add.group();
+        // @TODO Cleaner code to separate left and right player hands
+        offsets = [0, 400];
+        this.players.forEach(function(player, i) {
+            offset = offsets[i];
+            if (player.handImageGroup != null) {
+                player.handImageGroup.destroy();
+            }
+            player.handImageGroup = game.add.group();
 
-        this.players[0].hand.forEach(function(card, i){
-            var image = this.players[0].handImageGroup.create(i * 100, 100, card.imageName);
-            image.scale.setTo(0.5, 0.5);
+            player.hand.forEach(function(card, i){
+                var image = player.handImageGroup.create(i * 100 + offset, 100, card.imageName);
+                image.scale.setTo(0.5, 0.5);
+            }, this);
+
+            player.combatOrderedHand.forEach(function(card, i){
+                var image = player.handImageGroup.create(i * 100 + offset, 300, card.imageName);
+                image.scale.setTo(0.5, 0.5);
+            }, this);
         }, this);
+    },
 
+    update: function () {
+        this.drawGame();
         if (this.gameState == STATE_INIT) {
             this.handleInitPhase();
         } else if (this.gameState == STATE_PICK) {
