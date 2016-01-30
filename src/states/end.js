@@ -5,7 +5,6 @@ var endState = function () {
 endState.prototype = {
     init: function() {
         this.text = null;
-        this.fadeIn = null
     },
 
     preload: function() {
@@ -21,7 +20,7 @@ endState.prototype = {
         );
         this.text.anchor.set(0.5);
 
-        this.fadeIn = this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
+        this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
     },
 
     update: function() {
