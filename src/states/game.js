@@ -124,6 +124,8 @@ var gameState = function () {
     this.players[0] = [];
     this.players[1] = [];
     this.currentPlayer = null;
+    this.cursors = null;
+    this.enterKey = null;
 
     this.players[0].otherPlayer = this.players[1];
     this.players[1].otherPlayer = this.players[0];
@@ -139,11 +141,15 @@ var gameState = function () {
     this.booster = null;
 
     this.deck = DECK;
+    this.currentSelectedCard = 0;
 };
 
 
 gameState.prototype = {
     init: function () {
+        this.cursors = this.input.keyboard.createCursorKeys();
+        this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
         //Register main keys
         // TODO: add 5th card
         this.players[0].keys[0] = game.input.keyboard.addKey(Phaser.Keyboard.Q);
@@ -279,20 +285,30 @@ gameState.prototype = {
     },
 
     handlePickPhase: function () {
-        this.currentPlayer.keys.forEach(function (entry, i) {
-            if (entry.justDown) {
-                if (i < this.booster.length) {
-                    this.currentPlayer.hand.push(this.booster[i]);
-                    this.booster.splice(i, 1);
-                    this.currentPlayer = this.currentPlayer.otherPlayer;
-                    this.debugState();
-                }
+        if (this.cursors.up.justDown) {
+            if (this.currentSelectedCard > 0) {
+                this.currentSelectedCard -= 1;
             }
-        }, this);
+        } else if (this.cursors.down.justDown) {
+            if (this.currentSelectedCard < this.booster.length - 1) {
+                this.currentSelectedCard += 1;
+            }
+        }
 
         if (this.booster.length <= 1) {
             this.gameState = STATE_ORDER;
         }
+
+        if (this.enterKey.justDown) {
+            if (this.currentSelectedCard < this.booster.length) {
+                this.currentPlayer.hand.push(this.booster[this.currentSelectedCard]);
+                this.booster.splice(this.currentSelectedCard, 1);
+                this.currentPlayer = this.currentPlayer.otherPlayer;
+                this.currentSelectedCard = 0;
+                this.debugState();
+            }
+        }
+
     },
 
     handleOrderPhase: function () {
@@ -373,6 +389,9 @@ gameState.prototype = {
                 card.image = this.boosterImageGroup.create(game.world.width/2, (2 * i + 1) * game.world.height / 10, card.imageName);
                 card.image.anchor.setTo(0.5, 0.5);
                 card.image.scale.setTo(0.2, 0.2);
+                if (i != this.currentSelectedCard) {
+                    card.image.alpha = 0.6;
+                }
             }, this);
         }
 
