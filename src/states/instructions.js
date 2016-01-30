@@ -17,15 +17,15 @@ instructionsState.prototype = {
             "f you are a woman you begin because we understand the fact you can't grow a beard.";
         this.instructions[1] = "The tour has three distinguish phases. \A" +
             " draft phase, a selection phase and a resolution phase.";
-        this.instructions[2] = "1)The draft phase: During this phase, a booster of 5 cards will be available.\ " +
+        this.instructions[2] = "The draft phase: During this phase, a booster of 5 cards will be available.\ " +
             "Player one chose one card among 5 cards than give the rest to Player two (4 cards).\ " +
             "Player two do the same,so he chose one card among 4 remaining cards than give the rest to player one.\ " +
             "We do exactly the same process once again and the last card is put in the discarding.\ " +
             "Players are not allowed to see the choice of other player during all the draft phase.";
-        this.instructions[3] = "2) Selection phase: during this phase, both player have to chose the order of their cards resolution.\ " +
+        this.instructions[3] = "Selection phase: during this phase, both player have to chose the order of their cards resolution.\ " +
             "Player one will chose first and player two is not allowed to see player one's choice.\ " +
             "Than player two chose and player one is not allowed to see player two's choice.";
-        this.instructions[4] = "3) resolution phase, this phase will occur automatically as follows:\ " +
+        this.instructions[4] = "Resolution phase, this phase will occur automatically as follows:\ " +
             "first card of player one will fight the first card of player two.\ " +
             "Then second card of player one will fight second card of player two.\ " +
             "After that, new scores will be automatically evaluated and cards played are put in the discarding.";
