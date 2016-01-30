@@ -380,8 +380,13 @@ gameState.prototype = {
             player.handImageGroup = game.add.group();
 
             player.hand.forEach(function(card, i){
-                var image = player.handImageGroup.create(i * 100 + offset, 100, card.imageName);
-                image.scale.setTo(0.5, 0.5);
+                var x = (2 * i +1) * game.world.width/10;
+                if (player == this.players[1]) {
+                    x = game.world.width - x;
+                }
+                var image = player.handImageGroup.create(x, 3 * game.world.width/16, card.imageName);
+                image.anchor.setTo(0.5, 0.5);
+                image.scale.setTo(0.3, 0.3);
             }, this);
 
             player.combatOrderedHand.forEach(function(card, i){
