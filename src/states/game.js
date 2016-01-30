@@ -435,8 +435,16 @@ gameState.prototype = {
             }, this);
 
             player.combatOrderedHand.forEach(function(card, i){
-                var image = player.handImageGroup.create(i * 100 + offset, 300, card.imageName);
-                image.scale.setTo(0.5, 0.5);
+                var x, y;
+                if (player == this.players[0]) {
+                    x = game.world.width / 2 - 80;
+                } else {
+                    x = game.world.width / 2 + 80;
+                }
+                y = 300 + 120 * i;
+                var image = player.handImageGroup.create(x, y, 'cards/back.png');
+                image.anchor.setTo(0.5, 0.5);
+                image.scale.setTo(0.2, 0.2);
             }, this);
 
             player.artifactSprite.visible = player.score.hasArtifact;
