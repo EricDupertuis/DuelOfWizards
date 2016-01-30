@@ -4,6 +4,11 @@ var STATE_COMBAT = "combat";
 
 var FACTIONS = ["Faction0", "Faction1"];
 
+var gameScore = function() {
+    this.powerLevel = 2;
+    this.hasArtifact = false;
+};
+
 var gameState = function () {
     this.config = null;
     this.players = [];
@@ -15,13 +20,14 @@ var gameState = function () {
         player.keys = [];
         player.hand = [];
         player.combatOrderedHand = [];
+        player.score = new gameScore();
     });
 
     this.booster = null;
 
     //Just temp to simulate deck shuffle
     this.testCard = this.createCard('test', FACTIONS[0], function(player, opponentCard){
-        console.log(player, opponentCard);
+        player.score.powerLevel = player.score.powerLevel + 1;
     });
     this.deck = [];
 
@@ -142,6 +148,7 @@ gameState.prototype = {
             this.handleCombatPhase();
         } else {
             console.log("Unknown state: " + this.gameState);
+
         }
 
         this.clearAllKeypresses();
