@@ -161,6 +161,11 @@ gameState.prototype = {
         };
 
         console.log("State: " + this.gameState);
+        if (this.currentPlayer == this.players[0]) {
+            console.log("Player 0 plays");
+        } else {
+            console.log("Player 1 plays");
+        }
         console.log("Deck: " + prettyCards(this.deck));
         console.log("Booster: " + prettyCards(this.booster));
         console.log("Player 0's hand: " + prettyCards(this.players[0].hand));
