@@ -5,7 +5,7 @@ var STATE_COMBAT = "combat";
 var STATE_WON = "won";
 var STATE_ANIMATION_HOLD = "animation";
 
-var FACTIONS = ["Faction0", "Faction1"];
+var FACTIONS = ["Mayans", "Druids"];
 
 var MAX_POWER_LEVEL = 6;
 
@@ -178,22 +178,43 @@ gameState.prototype = {
             game.load.image(e.imageName, e.imageName);
         }, this);
 
+
+        this.players.forEach(function(player) {
+            name = 'pentagrams/' + player.faction;
+            game.load.image(name, name + '.png');
+        }, this);
+
     },
 
     create: function () {
-        this.players[0].healthbar = new HealthBar(this.game, {x: 200,
-                                                              y: 10,
+        this.players[0].healthbar = new HealthBar(this.game, {x: 2 * game.world.width/12,
+                                                              y: 40,
                                                               animationDuration: 0.01,
-                                                              width: 200,
+                                                              width: game.world.width/3,
+                                                              bar: {color: "#ecf0f1" },
+                                                              bg: {color: "#34495e"},
+
                                                               height: 20,
         });
-        this.players[1].healthbar = new HealthBar(this.game, {x: 600,
-                                                              y: 10,
+        this.players[1].healthbar = new HealthBar(this.game, {x: 10 * game.world.width/12,
+                                                              y: 40,
                                                               animationDuration: 0.01,
-                                                              width: 200,
+                                                              width: game.world.width/3,
                                                               height: 20,
+                                                              bar: {color: "#ecf0f1" },
+                                                              bg: {color: "#34495e"},
                                                               flipped:true});
 
+        this.players.forEach(function(player) {
+            player.artifactSprite = game.add.image(game.world.width / 2 - 100, 50,
+                                                            'pentagrams/' + player.faction);
+
+            player.artifactSprite.scale.setTo(0.2, 0.2);
+            player.artifactSprite.anchor.setTo(0.5, 0.5);
+        });
+
+        this.players[0].artifactSprite.x = game.world.width / 2 - 80;
+        this.players[1].artifactSprite.x = game.world.width / 2 + 80;
     },
 
     debugState: function () {
@@ -356,6 +377,8 @@ gameState.prototype = {
                 var image = player.handImageGroup.create(i * 100 + offset, 300, card.imageName);
                 image.scale.setTo(0.5, 0.5);
             }, this);
+
+            player.artifactSprite.visible = player.score.hasArtifact;
         }, this);
 
         this.players.forEach(function (player) {
@@ -378,7 +401,6 @@ gameState.prototype = {
             this.game.state.start("End");
         } else {
             console.log("Unknown state: " + this.gameState);
-
         }
 
         this.clearAllKeypresses();
