@@ -181,23 +181,19 @@ gameState.prototype = {
     },
 
     create: function () {
-        this.players[0].scoreText = game.add.text(
-            game.world.centerX - 200,
-            game.world.height -100,
-            'Score: ',
-            { font: "24px Arial", fill: "#ff0044", align: "left" }
-        );
+        this.players[0].healthbar = new HealthBar(this.game, {x: 200,
+                                                              y: 10,
+                                                              animationDuration: 0.01,
+                                                              width: 200,
+                                                              height: 20,
+        });
+        this.players[1].healthbar = new HealthBar(this.game, {x: 600,
+                                                              y: 10,
+                                                              animationDuration: 0.01,
+                                                              width: 200,
+                                                              height: 20,
+                                                              flipped:true});
 
-        this.players[0].scoreText.anchor.set(0.5);
-
-        this.players[1].scoreText = game.add.text(
-            game.world.centerX + 200,
-            game.world.height -100,
-            'Score: ',
-            { font: "24px Arial", fill: "#ff0044", align: "left" }
-        );
-
-        this.players[1].scoreText.anchor.set(0.5);
     },
 
     debugState: function () {
@@ -326,7 +322,7 @@ gameState.prototype = {
             this.boosterImageGroup = game.add.group();
 
             this.booster.forEach(function(card, i){
-                card.image = this.boosterImageGroup.create(i * 100, 0, card.imageName);
+                card.image = this.boosterImageGroup.create(i * 100, 30, card.imageName);
                 card.image.scale.setTo(0.5, 0.5);
             }, this);
         }
@@ -352,8 +348,9 @@ gameState.prototype = {
         }, this);
 
         this.players.forEach(function (player) {
-            player.scoreText.text = "Score: " + player.score.powerLevel;
+            player.healthbar.setPercent(100 * player.score.powerLevel / MAX_POWER_LEVEL);
         }, this)
+
     },
 
     update: function () {
