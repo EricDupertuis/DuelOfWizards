@@ -42,6 +42,8 @@ menuState.prototype = {
             {font: "35px Arial", fill: "#000", align: "center"}
         );
         this.menuEntries[1].anchor.set(0.5);
+
+        this.fadeIn = this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
     },
 
     update: function () {
