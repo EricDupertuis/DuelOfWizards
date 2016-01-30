@@ -395,8 +395,13 @@ gameState.prototype = {
             player.healthbar.setPercent(100 * player.score.powerLevel / MAX_POWER_LEVEL);
         }, this);
 
-        this.currentPlayer.characterSprite.alpha = 1.;
-        this.currentPlayer.otherPlayer.characterSprite.alpha = 0.5;
+        if (this.gameState == STATE_PICK || this.gameState == STATE_ORDER) {
+            this.currentPlayer.characterSprite.alpha = 1.;
+            this.currentPlayer.otherPlayer.characterSprite.alpha = 0.5;
+        } else {
+            this.currentPlayer.characterSprite.alpha = 0.5;
+            this.currentPlayer.otherPlayer.characterSprite.alpha = 0.5;
+        };
     },
 
     update: function () {
