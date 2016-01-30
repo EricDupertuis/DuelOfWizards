@@ -108,8 +108,8 @@ DECK = _.union(ANTIARTIFACT_CARDS, ATTACK_CARDS, DEFENSE_CARDS, [
     createCard("Team0 up", FACTIONS[0], powerLevelCardEffect, 'cards/power_ups/' + FACTIONS[0] + '.png'),
     createCard("Team1 up", FACTIONS[1], powerLevelCardEffect, 'cards/power_ups/' + FACTIONS[1] + '.png'),
     createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
-    createCard("Team0 artifact", FACTIONS[0], artifactEffect, 'robotTest.png'),
-    createCard("Team1 artifact", FACTIONS[1], artifactEffect, 'robotTest.png'),
+    createCard("Team0 artifact", FACTIONS[0], artifactEffect, 'cards/artifacts/' + FACTIONS[0] + '.png'),
+    createCard("Team1 artifact", FACTIONS[1], artifactEffect, 'cards/artifacts/' + FACTIONS[1] + '.png'),
     createCard("Joker", "", jockerEffect, 'characters/joker.png')
 ]);
 
