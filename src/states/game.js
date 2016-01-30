@@ -6,7 +6,7 @@ var STATE_WON = "won";
 var STATE_ANIMATION_HOLD = "animation";
 var DARKEN_ALPHA = 0.6;
 
-var FACTIONS = ["Mayans", "Druids"];
+var FACTIONS = ["Mayans", "Satan"];
 
 var MAX_POWER_LEVEL = 6;
 
@@ -108,15 +108,15 @@ DECK = _.union(ANTIARTIFACT_CARDS, ATTACK_CARDS, DEFENSE_CARDS, [
     createCard("Team0 up", FACTIONS[0], powerLevelCardEffect, 'cards/power_ups/' + FACTIONS[0] + '.png'),
     createCard("Team1 up", FACTIONS[1], powerLevelCardEffect, 'cards/power_ups/' + FACTIONS[1] + '.png'),
     createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
-    createCard("Team0 artifact", FACTIONS[0], artifactEffect, 'cards/artifacts/' + FACTIONS[0] + '.png'),
-    createCard("Team1 artifact", FACTIONS[1], artifactEffect, 'cards/artifacts/' + FACTIONS[1] + '.png'),
-    createCard("Joker", "", jockerEffect, 'characters/joker.png')
+    createCard("Team0 artifact", FACTIONS[0], artifactEffect, 'cards/artifacts/Mayans.png'),
+    createCard("Team1 artifact", FACTIONS[1], artifactEffect, 'cards/artifacts/Satan.png'),
+    createCard("Joker", "", jockerEffect, 'cards/joker.png')
 ]);
 
 
 var gameScore = function () {
     this.powerLevel = 2;
-    this.hasArtifact = false;
+    this.hasArtifact = true;
 };
 
 var gameState = function () {
@@ -216,7 +216,7 @@ gameState.prototype = {
             player.artifactSprite = game.add.image(game.world.width / 2 - 100, 50,
                                                             'pentagrams/' + player.faction);
 
-            player.artifactSprite.scale.setTo(0.2, 0.2);
+            player.artifactSprite.scale.setTo(0.1, 0.1);
             player.artifactSprite.anchor.setTo(0.5, 0.5);
 
             player.characterSprite = game.add.image(0, game.world.height, 'characters/' + player.faction);
