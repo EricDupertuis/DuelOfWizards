@@ -14,7 +14,7 @@ createCard = function (name, faction, effect) {
         "name": name,
         "faction": faction,
         "effect": effect,
-        "imageName": 'robotTest.jpg'
+        "imageName": 'robotTest.png'
     };
 
     res.effect = _.bind(effect, res);
@@ -170,6 +170,7 @@ gameState.prototype = {
         this.deck.forEach(function(e){
             game.load.image(e.imageName, e.imageName);
         }, this);
+
     },
 
     create: function () {
@@ -283,9 +284,16 @@ gameState.prototype = {
     },
 
     update: function () {
-        if (this.booster) {
+        if (this.booster != null) {
+            if (this.booster.imageGroup) {
+                this.booster.imageGroup.destroy();
+            }
+
+            this.booster.imageGroup = game.add.group();
+
             this.booster.forEach(function(card, i){
-                card.image = game.add.image(i * 0.1, 0, card.imageName);
+                card.image = this.booster.imageGroup.create(i * 100, 0, card.imageName);
+                card.image.scale.setTo(0.5, 0.5);
             }, this);
         }
 
@@ -308,7 +316,9 @@ gameState.prototype = {
     },
 
     createBooster: function (deck) {
-        return _.sample(deck, 5);
+        booster = _.sample(deck, 5);
+        booster.imageGroup = null;
+        return booster;
     },
 
     // return true if given player wins
