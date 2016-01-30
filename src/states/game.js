@@ -299,27 +299,29 @@ gameState.prototype = {
     },
 
     handleCombatPhase: function () {
-        _.map(_.zip(this.players[0].combatOrderedHand, this.players[1].combatOrderedHand), function (a) {
-            a[0].effect(this.players[0], a[1]);
-            a[1].effect(this.players[1], a[0]);
+        a = this.players[0].combatOrderedHand.splice(0, 1)[0];
+        b = this.players[1].combatOrderedHand.splice(0, 1)[0];
 
-            _.map(this.players, function (player) {
-                if (this.checkVictory(player)) {
-                    console.log(player.faction + " wins");
-                    this.gameState = STATE_WON;
-                    this.game.winner = player;
-                }
-            }, this);
+        a.effect(this.players[0], b);
+        b.effect(this.players[1], a);
+
+        _.map(this.players, function (player) {
+            if (this.checkVictory(player)) {
+                console.log(player.faction + " wins");
+                this.gameState = STATE_WON;
+                this.game.winner = player;
+            }
         }, this);
 
-        if (this.gameState != STATE_WON) {
-            this.gameState = STATE_INIT;
+        if (this.players[0].combatOrderedHand.length == 0) {
+            if (this.gameState != STATE_WON) {
+                this.gameState = STATE_INIT;
+            }
         }
 
         this.playAnimation('explosion1', 200, 200);
 
         this.debugState();
-
     },
 
     drawGame: function() {
