@@ -252,6 +252,7 @@ gameState.prototype = {
                 if (this.checkVictory(player)) {
                     console.log(player.faction + " wins");
                     this.gameState = STATE_WON;
+                    this.game.winner = player;
                 }
             }, this);
         }, this);
@@ -272,6 +273,8 @@ gameState.prototype = {
             this.handleOrderPhase();
         } else if (this.gameState == STATE_COMBAT) {
             this.handleCombatPhase();
+        } else if (this.gameState == STATE_WON) {
+            this.game.state.start("End");
         } else {
             console.log("Unknown state: " + this.gameState);
 
