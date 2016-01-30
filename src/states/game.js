@@ -19,7 +19,7 @@ createCard = function (name, faction, effect) {
     return res;
 };
 
-var powerLevelCardEffect = function (player, opponent, opponentCard) {
+var powerLevelCardEffect = function (player, opponentCard) {
     if (player.faction == this.faction) {
         player.score.powerLevel += 2;
     } else {
@@ -27,24 +27,24 @@ var powerLevelCardEffect = function (player, opponent, opponentCard) {
     }
 };
 
-var attackEffect = function (player, opponent, opponentCard) {
+var attackEffect = function (player, opponentCard) {
     console.log(this.name, DEFENSE_CARDS.indexOf(opponentCard));
     if (DEFENSE_CARDS.indexOf(opponentCard) != -1) {
         return;
     }
 
     if (player.faction == this.faction) {
-        opponent.score.powerLevel -= 3;
+        player.otherPlayer.score.powerLevel -= 3;
     } else {
-        opponent.score.powerLevel -= 2;
+        player.otherPlayer.score.powerLevel -= 2;
     }
 
-    if (opponent.score.powerLevel < 0) {
-        opponent.score.powerLevel = 0;
+    if (player.otherPlayer.score.powerLevel < 0) {
+        player.otherPlayer.score.powerLevel = 0;
     }
 };
 
-var defenseEffect = function (player, opponent, opponentCard) {
+var defenseEffect = function (player, opponentCard) {
     if (ATTACK_CARDS.indexOf(opponentCard) == -1) {
         return;
     }
@@ -55,7 +55,7 @@ var defenseEffect = function (player, opponent, opponentCard) {
     }
 };
 
-var artifactEffect = function (player, opponent, opponentCard) {
+var artifactEffect = function (player, opponentCard) {
     if (ANTIARTIFACT_CARDS.indexOf(opponentCard) != -1) {
         return;
     }
@@ -64,14 +64,14 @@ var artifactEffect = function (player, opponent, opponentCard) {
     }
 };
 
-var antiArtifactEffect = function (player, opponent, opponentCard) {
-    opponent.score.hasArtifact = false;
+var antiArtifactEffect = function (player, opponentCard) {
+    player.otherPlayer.score.hasArtifact = false;
 };
 
-var jockerEffect = function (player, opponent, opponentCard) {
+var jockerEffect = function (player, opponentCard) {
     newcard = _.sample(DECK, 1)[0];
     console.log("Joker: " + newcard.name);
-    newcard.effect(player, opponent, opponentCard);
+    newcard.effect(player, opponentCard);
 };
 
 
@@ -245,8 +245,8 @@ gameState.prototype = {
 
     handleCombatPhase: function () {
         _.map(_.zip(this.players[0].combatOrderedHand, this.players[1].combatOrderedHand), function (a) {
-            a[0].effect(this.players[0], this.players[1], a[1]);
-            a[1].effect(this.players[1], this.players[0], a[0]);
+            a[0].effect(this.players[0], a[1]);
+            a[1].effect(this.players[1], a[0]);
 
             _.map(this.players, function (player) {
                 if (this.checkVictory(player)) {
