@@ -89,9 +89,9 @@ var jockerEffect = function (player, opponentCard) {
 
 
 DEFENSE_CARDS = [
-    createCard("Team0 defense", FACTIONS[0], defenseEffect, 'characters/Druids.png'),
+    createCard("Team0 defense", FACTIONS[0], defenseEffect, 'characters/' + FACTIONS[0] + '.png'),
     createCard("Team1 defense", FACTIONS[1], defenseEffect, 'characters/Druids.png'),
-    createCard("neutral defense", "", defenseEffect, 'characters/Druids.png')
+    createCard("neutral defense", "", defenseEffect, 'cards/defense/Neutral.png')
 ];
 
 ATTACK_CARDS = [

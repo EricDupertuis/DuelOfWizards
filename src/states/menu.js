@@ -29,7 +29,7 @@ menuState.prototype = {
         this.menuEntries[0] = game.add.text(
             game.world.centerX,
             250,
-            'Insert Game Title Here',
+            'New Game',
             {font: "35px Arial", fill: "#000", align: "center"}
         );
         this.menuEntries[0].anchor.set(0.5);
@@ -63,6 +63,7 @@ menuState.prototype = {
 
         if (this.goKey.justDown) {
             if (this.selectedMenu == 0) {
+                this.game.add.tween(this.game.world).to( { alpha: 0 }, 2000, "Linear", true);
                 this.game.state.start("Game");
             } else {
                 //@TODO Change for another state when ready
