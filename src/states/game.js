@@ -109,7 +109,7 @@ DECK = _.union(ANTIARTIFACT_CARDS, ATTACK_CARDS, DEFENSE_CARDS, [
     createCard("neutral up", "", powerLevelCardEffect, 'characters/Mayans.png'),
     createCard("Team0 artifact", FACTIONS[0], artifactEffect, 'robotTest.png'),
     createCard("Team1 artifact", FACTIONS[1], artifactEffect, 'robotTest.png'),
-    createCard("Joker", "", jockerEffect, 'characters/joker.png'),
+    createCard("Joker", "", jockerEffect, 'characters/joker.png')
 ]);
 
 
@@ -215,10 +215,16 @@ gameState.prototype = {
 
             player.artifactSprite.scale.setTo(0.2, 0.2);
             player.artifactSprite.anchor.setTo(0.5, 0.5);
+
+            player.characterSprite = game.add.image(0, game.world.height, 'characters/' + player.faction);
+            player.characterSprite.anchor.setTo(0, 1);
         });
 
         this.players[0].artifactSprite.x = game.world.width / 2 - 80;
         this.players[1].artifactSprite.x = game.world.width / 2 + 80;
+
+        this.players[1].characterSprite.x = game.world.width;
+        this.players[1].characterSprite.anchor.setTo(1, 1);
     },
 
     debugState: function () {
