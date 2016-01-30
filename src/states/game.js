@@ -334,9 +334,8 @@ gameState.prototype = {
         this.previousGameState = this.gameState;
         this.gameState = STATE_ANIMATION_HOLD;
 
-        var sprite = game.add.image(200, 200, 'explosion1');
-        sprite.anchor.x = 0.30;
-        sprite.anchor.y = 0.25;
+        var sprite = game.add.image(game.world.width / 2, game.world.height / 2, 'explosion1');
+        sprite.anchor.setTo(0.5, 0.5);
         var anim = sprite.animations.add('explosion1');
         sprite.animations.play('explosion1', 15);
 
