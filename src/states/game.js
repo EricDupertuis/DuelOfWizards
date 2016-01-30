@@ -172,7 +172,10 @@ gameState.prototype = {
         // base assets path
         game.load.baseURL = 'assets/';
 
+<<<<<<< Updated upstream
         this.boosterImageGroup = null;
+=======
+>>>>>>> Stashed changes
         this.load.spritesheet('explosion1', 'animationTest.png', 128, 128);
 
         this.deck.forEach(function(e){
@@ -375,9 +378,22 @@ gameState.prototype = {
             }
         }
 
+<<<<<<< Updated upstream
         this.playAnimation('explosion1', 200, 200);
 
         this.debugState();
+=======
+        var sprite = game.add.image(200, 200, 'explosion1');
+        sprite.anchor.x = 0.30;
+        sprite.anchor.y = 0.25;
+        var anim = sprite.animations.add('explosion1');
+        sprite.animations.play('explosion1');
+        anim.onComplete.add(function (sprite, animation) {
+            this.gameState = STATE_INIT;
+            console.log('ma guele');
+            sprite.destroy();
+        }, this);
+>>>>>>> Stashed changes
     },
 
     drawGame: function() {
