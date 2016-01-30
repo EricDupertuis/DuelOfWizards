@@ -4,6 +4,7 @@ var STATE_ORDER = "order";
 var STATE_COMBAT = "combat";
 var STATE_WON = "won";
 var STATE_ANIMATION_HOLD = "animation";
+var DARKEN_ALPHA = 0.6;
 
 var FACTIONS = ["Mayans", "Druids"];
 
@@ -149,18 +150,6 @@ gameState.prototype = {
     init: function () {
         this.cursors = this.input.keyboard.createCursorKeys();
         this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-
-        //Register main keys
-        // TODO: add 5th card
-        this.players[0].keys[0] = game.input.keyboard.addKey(Phaser.Keyboard.Q);
-        this.players[0].keys[1] = game.input.keyboard.addKey(Phaser.Keyboard.W);
-        this.players[0].keys[2] = game.input.keyboard.addKey(Phaser.Keyboard.E);
-        this.players[0].keys[3] = game.input.keyboard.addKey(Phaser.Keyboard.T);
-
-        this.players[1].keys[0] = game.input.keyboard.addKey(Phaser.Keyboard.Z);
-        this.players[1].keys[1] = game.input.keyboard.addKey(Phaser.Keyboard.U);
-        this.players[1].keys[2] = game.input.keyboard.addKey(Phaser.Keyboard.I);
-        this.players[1].keys[3] = game.input.keyboard.addKey(Phaser.Keyboard.O);
 
         this.players[0].chosenAttack = null;
         this.players[1].chosenAttack = null;
@@ -308,19 +297,26 @@ gameState.prototype = {
                 this.debugState();
             }
         }
-
     },
 
     handleOrderPhase: function () {
-        this.currentPlayer.keys.forEach(function (entry, i) {
-            if (entry.justDown) {
-                if (i < this.currentPlayer.hand.length) {
-                    this.currentPlayer.combatOrderedHand.push(this.currentPlayer.hand[i]);
-                    this.currentPlayer.hand.splice(i, 1);
-                    this.debugState();
-                }
-            }
-        }, this);
+        if (this.cursors.left.justDown) {
+            this.currentSelectedCard --;
+            this.currentSelectedCard = Math.max(this.currentSelectedCard, 0);
+        }
+
+        if (this.cursors.right.justDown) {
+            this.currentSelectedCard ++;
+            this.currentSelectedCard = Math.min(this.currentSelectedCard, this.currentPlayer.hand.length - 1);
+        }
+
+        if (this.enterKey.justDown) {
+            console.log("current card:" + this.currentSelectedCard);
+            this.currentPlayer.combatOrderedHand.push(this.currentPlayer.hand[this.currentSelectedCard]);
+            this.currentPlayer.hand.splice(this.currentSelectedCard, 1);
+            this.debugState();
+            this.currentSelectedCard = 0;
+        }
 
 
         /* If the hand is empty switch to other player. If both hands are
@@ -338,9 +334,8 @@ gameState.prototype = {
         this.previousGameState = this.gameState;
         this.gameState = STATE_ANIMATION_HOLD;
 
-        var sprite = game.add.image(200, 200, 'explosion1');
-        sprite.anchor.x = 0.30;
-        sprite.anchor.y = 0.25;
+        var sprite = game.add.image(game.world.width / 2, game.world.height / 2, 'explosion1');
+        sprite.anchor.setTo(0.5, 0.5);
         var anim = sprite.animations.add('explosion1');
         sprite.animations.play('explosion1', 15);
 
@@ -382,17 +377,24 @@ gameState.prototype = {
             if (this.boosterImageGroup) {
                 this.boosterImageGroup.destroy();
             }
-
-            this.boosterImageGroup = game.add.group();
-
-            this.booster.forEach(function(card, i){
-                card.image = this.boosterImageGroup.create(game.world.width/2, (2 * i + 1) * game.world.height / 10, card.imageName);
-                card.image.anchor.setTo(0.5, 0.5);
-                card.image.scale.setTo(0.2, 0.2);
-                if (i != this.currentSelectedCard) {
-                    card.image.alpha = 0.6;
+        }
+        if (this.gameState == STATE_PICK) {
+            if (this.booster != null) {
+                if (this.boosterImageGroup) {
+                    this.boosterImageGroup.destroy();
                 }
-            }, this);
+
+                this.boosterImageGroup = game.add.group();
+
+                this.booster.forEach(function(card, i){
+                    card.image = this.boosterImageGroup.create(game.world.width/2, (2 * i + 1) * game.world.height / 10, card.imageName);
+                    card.image.anchor.setTo(0.5, 0.5);
+                    card.image.scale.setTo(0.2, 0.2);
+                    if (i != this.currentSelectedCard) {
+                        card.image.alpha = DARKEN_ALPHA;
+                    }
+                }, this);
+            }
         }
 
         // @TODO Cleaner code to separate left and right player hands
@@ -414,6 +416,9 @@ gameState.prototype = {
 
                 if (player == this.currentPlayer) {
                     image = player.handImageGroup.create(x, y, card.imageName);
+                    if (i != this.currentSelectedCard) {
+                        image.alpha = DARKEN_ALPHA;
+                    }
                 } else {
                     image = player.handImageGroup.create(x, y, 'cards/back.png');
                 }
