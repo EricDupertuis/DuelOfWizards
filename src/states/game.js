@@ -6,6 +6,8 @@ var STATE_WON = "won";
 
 var FACTIONS = ["Faction0", "Faction1"];
 
+var MAX_POWER_LEVEL = 6;
+
 // Effect is a function taking player and opponent card as parameters
 createCard = function (name, faction, effect) {
     res = {
@@ -24,6 +26,10 @@ var powerLevelCardEffect = function (player, opponentCard) {
         player.score.powerLevel += 2;
     } else {
         player.score.powerLevel += 1;
+    }
+
+    if (player.score.powerLevel > MAX_POWER_LEVEL) {
+        player.score.powerLevel = MAX_POWER_LEVEL;
     }
 };
 
@@ -52,6 +58,10 @@ var defenseEffect = function (player, opponentCard) {
         player.score.powerLevel += 2;
     } else {
         player.score.powerLevel += 1;
+    }
+
+    if (player.score.powerLevel > MAX_POWER_LEVEL) {
+        player.score.powerLevel = MAX_POWER_LEVEL;
     }
 };
 
