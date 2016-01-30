@@ -11,6 +11,7 @@ menuState.prototype = {
         this.menuEntries[0] = null;
         this.menuEntries[1] = null;
         this.selectedMenu = 0;
+        this.fadeExit = null
     },
 
     preload: function () {
@@ -63,8 +64,10 @@ menuState.prototype = {
 
         if (this.goKey.justDown) {
             if (this.selectedMenu == 0) {
-                this.game.add.tween(this.game.world).to( { alpha: 0 }, 2000, "Linear", true);
-                this.game.state.start("Game");
+                this.fadeExit = this.game.add.tween(this.game.world).to( { alpha: 0 }, 500, "Linear", true );
+                this.fadeExit.onComplete.add(function(){
+                    this.game.state.start("Game");
+                }, this);
             } else {
                 //@TODO Change for another state when ready
                 console.log('Game instruction');

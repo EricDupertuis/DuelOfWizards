@@ -127,6 +127,8 @@ var gameState = function () {
     this.currentPlayer = null;
     this.cursors = null;
     this.enterKey = null;
+    this.fadeIn = null;
+    this.fadeExit = null;
 
     this.players[0].otherPlayer = this.players[1];
     this.players[1].otherPlayer = this.players[0];
@@ -226,6 +228,7 @@ gameState.prototype = {
         this.players[1].characterSprite.x = game.world.width;
         this.players[1].characterSprite.anchor.setTo(1, 1);
 
+        this.fadeIn = this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
     },
 
     debugState: function () {
@@ -340,7 +343,6 @@ gameState.prototype = {
         sprite.animations.play('explosion1', 15);
 
         anim.onComplete.add(function (sprite, animation) {
-            console.log('ma guele');
             this.gameState = this.previousGameState;
             sprite.destroy();
         }, this);
@@ -460,7 +462,10 @@ gameState.prototype = {
         } else if (this.gameState == STATE_COMBAT) {
             this.handleCombatPhase();
         } else if (this.gameState == STATE_WON) {
-            this.game.state.start("End");
+            this.fadeExit = this.game.add.tween(this.game.world).to( { alpha: 0 }, 500, "Linear", true );
+            this.fadeExit.onComplete.add(function(){
+                this.game.state.start("End");
+            }, this);
         } else {
             console.log("Unknown state: " + this.gameState);
         }
