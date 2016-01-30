@@ -3,7 +3,7 @@ var menuState = function () {
 };
 
 menuState.prototype = {
-    init: function() {
+    init: function () {
         this.cursors = null;
         this.goKey = null;
         this.menuEntries = [];
@@ -13,12 +13,12 @@ menuState.prototype = {
         this.selectedMenu = 0;
     },
 
-    preload: function() {
+    preload: function () {
         game.load.baseURL = 'assets/';
-        this.load.image('fog','fog.png');
+        this.load.image('fog', 'fog.png');
     },
 
-    create: function() {
+    create: function () {
         this.goKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -30,7 +30,7 @@ menuState.prototype = {
             game.world.centerX,
             250,
             'Insert Game Title Here',
-            { font: "35px Arial", fill: "#000", align: "center" }
+            {font: "35px Arial", fill: "#000", align: "center"}
         );
         this.menuEntries[0].anchor.set(0.5);
 
@@ -38,12 +38,12 @@ menuState.prototype = {
             game.world.centerX,
             350,
             'Game instructions',
-            { font: "35px Arial", fill: "#000", align: "center" }
+            {font: "35px Arial", fill: "#000", align: "center"}
         );
         this.menuEntries[1].anchor.set(0.5);
     },
 
-    update: function() {
+    update: function () {
         if (this.cursors.up.justDown) {
             if (this.selectedMenu > 0) {
                 this.selectedMenu -= 1;
@@ -59,7 +59,7 @@ menuState.prototype = {
             if (i != this.selectedMenu) {
                 entry.alpha = DARKEN_ALPHA;
             }
-        }, this)
+        }, this);
 
         if (this.goKey.justDown) {
             if (this.selectedMenu == 0) {
