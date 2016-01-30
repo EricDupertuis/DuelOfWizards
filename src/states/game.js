@@ -3,6 +3,7 @@ var STATE_PICK = "pick";
 var STATE_ORDER = "order";
 var STATE_COMBAT = "combat";
 var STATE_WON = "won";
+var STATE_ANIMATION_HOLD = "animation";
 
 var FACTIONS = ["Faction0", "Faction1"];
 
@@ -171,6 +172,7 @@ gameState.prototype = {
         game.load.baseURL = 'assets/';
 
         this.boosterImageGroup = null;
+        this.load.spritesheet('explosion1', 'animationTest.png', 128, 128);
 
         this.deck.forEach(function(e){
             game.load.image(e.imageName, e.imageName);
@@ -299,9 +301,20 @@ gameState.prototype = {
 
         this.debugState();
 
-        if (this.gameState != STATE_WON) {
-            this.gameState = STATE_INIT;
-        }
+        this.gameState = STATE_ANIMATION_HOLD;
+
+        var sprite = game.add.image(200, 200, 'explosion1');
+        sprite.anchor.x = 0.30;
+        sprite.anchor.y = 0.25;
+        var anim = sprite.animations.add('explosion1');
+        sprite.animations.play('explosion1', 15);
+        anim.onComplete.add(function (sprite, animation) {
+            if (this.gameState != STATE_WON) {
+                this.gameState = STATE_INIT;
+            }
+            console.log('ma guele');
+            sprite.destroy();
+        }, this);
     },
 
     drawGame: function() {
