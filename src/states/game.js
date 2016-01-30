@@ -89,15 +89,15 @@ var jockerEffect = function (player, opponentCard) {
 
 
 DEFENSE_CARDS = [
-    createCard("Team0 defense", FACTIONS[0], defenseEffect, 'characters/' + FACTIONS[0] + '.png'),
-    createCard("Team1 defense", FACTIONS[1], defenseEffect, 'characters/Druids.png'),
+    createCard("Team0 defense", FACTIONS[0], defenseEffect, 'cards/defense/Mayans.png'),
+    createCard("Team1 defense", FACTIONS[1], defenseEffect, 'cards/defense/Satan.png'),
     createCard("neutral defense", "", defenseEffect, 'cards/defense/Neutral.png')
 ];
 
 ATTACK_CARDS = [
-    createCard("Team0 attack", FACTIONS[0], attackEffect, 'characters/Satan.png'),
-    createCard("Team1 attack", FACTIONS[1], attackEffect, 'characters/Satan.png'),
-    createCard("neutral attack", "", attackEffect, 'characters/Satan.png')
+    createCard("Team0 attack", FACTIONS[0], attackEffect, 'cards/attacks/Mayans.png'),
+    createCard("Team1 attack", FACTIONS[1], attackEffect, 'cards/attacks/Satan.png'),
+    createCard("neutral attack", "", attackEffect, 'cards/attacks/Neutral.png')
 ];
 
 ANTIARTIFACT_CARDS = [
