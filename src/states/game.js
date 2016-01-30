@@ -232,6 +232,8 @@ gameState.prototype = {
         this.players[1].characterSprite.anchor.setTo(1, 1);
 
         this.fadeIn = this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
+
+        this.resolvingCardPicturesGroup = game.add.group();
     },
 
     debugState: function () {
@@ -277,6 +279,8 @@ gameState.prototype = {
         this.gameState = STATE_PICK;
         this.debugState();
 
+        this.resolvingCardPicturesGroup.destroy();
+        this.resolvingCardPicturesGroup = game.add.group();
     },
 
     handlePickPhase: function () {
@@ -345,7 +349,7 @@ gameState.prototype = {
         var sprite = game.add.image(game.world.width / 2, game.world.height / 2, 'explosion1');
         sprite.anchor.setTo(0.5, 0.5);
         var anim = sprite.animations.add('explosion1');
-        sprite.animations.play('explosion1', 15);
+        sprite.animations.play('explosion1', 10);
 
         anim.onComplete.add(function (sprite, animation) {
             this.gameState = this.previousGameState;
@@ -359,6 +363,18 @@ gameState.prototype = {
 
         a.effect(this.players[0], b);
         b.effect(this.players[1], a);
+
+        this.resolvingCardPicturesGroup.destroy();
+        this.resolvingCardPicturesGroup = game.add.group();
+
+        var img_a = this.resolvingCardPicturesGroup.create(2 * game.world.width / 10, game.world.height / 2, a.imageName);
+        var img_b = this.resolvingCardPicturesGroup.create(8 * game.world.width / 10, game.world.height / 2, b.imageName);
+
+        img_a.anchor.setTo(0.5, 0.5);
+        img_a.scale.setTo(0.4, 0.4);
+        img_b.anchor.setTo(0.5, 0.5);
+        img_b.scale.setTo(0.4, 0.4);
+
 
         _.map(this.players, function (player) {
             if (this.checkVictory(player)) {
