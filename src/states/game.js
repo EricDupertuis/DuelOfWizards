@@ -160,6 +160,10 @@ gameState.prototype = {
 
         this.players[0].faction = FACTIONS[0];
         this.players[1].faction = FACTIONS[1];
+
+        this.zoomOnSelectedCard = false;
+        this.zoomedInCard = null;
+        this.toogleZoomKey = game.input.keyboard.addKey(Phaser.Keyboard.Z);
     },
 
     preload: function () {
@@ -294,6 +298,7 @@ gameState.prototype = {
                 this.booster.splice(this.currentSelectedCard, 1);
                 this.currentPlayer = this.currentPlayer.otherPlayer;
                 this.currentSelectedCard = 0;
+                this.zoomOnSelectedCard = false;
                 this.debugState();
             }
         }
@@ -315,6 +320,7 @@ gameState.prototype = {
             this.currentPlayer.combatOrderedHand.push(this.currentPlayer.hand[this.currentSelectedCard]);
             this.currentPlayer.hand.splice(this.currentSelectedCard, 1);
             this.debugState();
+            this.zoomOnSelectedCard = false;
             this.currentSelectedCard = 0;
         }
 
@@ -447,7 +453,25 @@ gameState.prototype = {
             this.currentPlayer.characterSprite.alpha = 0.5;
             this.currentPlayer.otherPlayer.characterSprite.alpha = 0.5;
         };
+
+
+        if (this.gameState == STATE_PICK) {
+            this.drawZoomedCard(this.booster[this.currentSelectedCard]);
+        } else if (this.gameState == STATE_ORDER) {
+            this.drawZoomedCard(this.currentPlayer.hand[this.currentSelectedCard]);
+        } else {
+            this.zoomOnSelectedCard = false;
+        }
     },
+
+    drawZoomedCard: function(card) {
+        if (this.zoomedInCardImage != null) {
+            this.zoomedInCardImage.destroy();
+        }
+        this.zoomedInCardImage = game.add.image(game.world.width / 2, game.world.height / 2, card.imageName);
+        this.zoomedInCardImage.anchor.setTo(0.5, 0.5);
+        this.zoomedInCardImage.visible = this.zoomOnSelectedCard;
+},
 
     update: function () {
         this.drawGame();
@@ -463,6 +487,10 @@ gameState.prototype = {
             this.game.state.start("End");
         } else {
             console.log("Unknown state: " + this.gameState);
+        }
+
+        if (this.toogleZoomKey.justDown) {
+            this.zoomOnSelectedCard = !this.zoomOnSelectedCard;
         }
 
         this.clearAllKeypresses();
