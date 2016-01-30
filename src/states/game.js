@@ -281,6 +281,23 @@ gameState.prototype = {
         }
     },
 
+    playAnimation: function(animationName, x, y) {
+        this.previousGameState = this.gameState;
+        this.gameState = STATE_ANIMATION_HOLD;
+
+        var sprite = game.add.image(200, 200, 'explosion1');
+        sprite.anchor.x = 0.30;
+        sprite.anchor.y = 0.25;
+        var anim = sprite.animations.add('explosion1');
+        sprite.animations.play('explosion1', 15);
+
+        anim.onComplete.add(function (sprite, animation) {
+            console.log('ma guele');
+            this.gameState = this.previousGameState;
+            sprite.destroy();
+        }, this);
+    },
+
     handleCombatPhase: function () {
         _.map(_.zip(this.players[0].combatOrderedHand, this.players[1].combatOrderedHand), function (a) {
             a[0].effect(this.players[0], a[1]);
@@ -295,22 +312,14 @@ gameState.prototype = {
             }, this);
         }, this);
 
+        if (this.gameState != STATE_WON) {
+            this.gameState = STATE_INIT;
+        }
+
+        this.playAnimation('explosion1', 200, 200);
+
         this.debugState();
 
-        this.gameState = STATE_ANIMATION_HOLD;
-
-        var sprite = game.add.image(200, 200, 'explosion1');
-        sprite.anchor.x = 0.30;
-        sprite.anchor.y = 0.25;
-        var anim = sprite.animations.add('explosion1');
-        sprite.animations.play('explosion1', 15);
-        anim.onComplete.add(function (sprite, animation) {
-            if (this.gameState != STATE_WON) {
-                this.gameState = STATE_INIT;
-            }
-            console.log('ma guele');
-            sprite.destroy();
-        }, this);
     },
 
     drawGame: function() {
