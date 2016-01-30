@@ -4,7 +4,42 @@
     <meta charset="UTF-8">
     <title>GG16 test</title>
 </head>
-<body>
+<body id="body">
+    <style scoped="scoped">
+        html, body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #424242;
+        }
+        canvas {
+            display: block;
+            position: absolute;
+            margin: auto;
+            border: #1a1a1a 1px solid;
+            border-radius: 5px;
+        }
+    </style>
+
+    <div id="ggj16"></div>
+
+    <script type="text/javascript">
+        var params = {
+            width: 800,
+            height: 600
+        };
+        var body = document.getElementById('body');
+        var bodyHeight = body.offsetHeight;
+        var bodyWidth = body.offsetWidth;
+
+        console.log((bodyHeight - params.height) / 2);
+
+        var canvasContainer = document.getElementById('ggj16');
+        canvasContainer.style.marginTop = ((bodyHeight - params.height) / 2).toString() + "px";
+        canvasContainer.style.marginLeft = ((bodyWidth - params.width) /2).toString() + "px";
+    </script>
+
     <script src="bower_components/underscore/underscore-min.js"></script>
     <script src="bower_components/phaser/build/phaser.min.js"></script>
     <script src="bower_components/phaser-healthbar/HealthBar.standalone.js"></script>
