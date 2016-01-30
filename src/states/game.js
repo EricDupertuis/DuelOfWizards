@@ -130,6 +130,8 @@ var gameState = function () {
     this.players.forEach(function (player) {
         player.keys = [];
         player.score = new gameScore();
+        player.handImageGroup = null;
+        player.hand = [];
     });
 
     this.booster = null;
@@ -296,6 +298,16 @@ gameState.prototype = {
                 card.image.scale.setTo(0.5, 0.5);
             }, this);
         }
+
+        if (this.players[0].handImageGroup != null) {
+            this.players[0].handImageGroup.destroy();
+        }
+        this.players[0].handImageGroup = game.add.group();
+
+        this.players[0].hand.forEach(function(card, i){
+            var image = this.players[0].handImageGroup.create(i * 100, 100, card.imageName);
+            image.scale.setTo(0.5, 0.5);
+        }, this);
 
         if (this.gameState == STATE_INIT) {
             this.handleInitPhase();
