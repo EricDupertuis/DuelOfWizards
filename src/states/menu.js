@@ -44,12 +44,6 @@ menuState.prototype = {
     },
 
     update: function() {
-        /*
-        if (this.goKey.justDown) {
-            this.game.state.start("Game");
-        }
-        */
-
         if (this.cursors.up.justDown) {
             if (this.selectedMenu > 0) {
                 this.selectedMenu -= 1;
@@ -68,5 +62,14 @@ menuState.prototype = {
                 entry.alpha = DARKEN_ALPHA;
             }
         }, this)
+
+        if (this.goKey.justDown) {
+            if (this.selectedMenu == 0) {
+                this.game.state.start("Game");
+            } else {
+                //@TODO Change for another state when ready
+                console.log('Game instruction');
+            }
+        }
     }
 };
