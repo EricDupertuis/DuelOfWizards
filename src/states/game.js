@@ -170,6 +170,8 @@ gameState.prototype = {
         // base assets path
         game.load.baseURL = 'assets/';
 
+        this.boosterImageGroup = null;
+
         this.deck.forEach(function(e){
             game.load.image(e.imageName, e.imageName);
         }, this);
@@ -304,14 +306,14 @@ gameState.prototype = {
 
     drawGame: function() {
         if (this.booster != null) {
-            if (this.booster.imageGroup) {
-                this.booster.imageGroup.destroy();
+            if (this.boosterImageGroup) {
+                this.boosterImageGroup.destroy();
             }
 
-            this.booster.imageGroup = game.add.group();
+            this.boosterImageGroup = game.add.group();
 
             this.booster.forEach(function(card, i){
-                card.image = this.booster.imageGroup.create(i * 100, 0, card.imageName);
+                card.image = this.boosterImageGroup.create(i * 100, 0, card.imageName);
                 card.image.scale.setTo(0.5, 0.5);
             }, this);
         }
@@ -363,7 +365,6 @@ gameState.prototype = {
 
     createBooster: function (deck) {
         booster = _.sample(deck, 5);
-        booster.imageGroup = null;
         return booster;
     },
 
