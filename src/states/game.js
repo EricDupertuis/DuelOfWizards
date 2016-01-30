@@ -14,7 +14,7 @@ createCard = function (name, faction, effect) {
         "name": name,
         "faction": faction,
         "effect": effect,
-        "imageName": 'robotTest.png'
+        "imageName": 'characters/Drudru.png'
     };
 
     res.effect = _.bind(effect, res);
@@ -177,7 +177,23 @@ gameState.prototype = {
     },
 
     create: function () {
+        this.players[0].scoreText = game.add.text(
+            game.world.centerX - 200,
+            game.world.height -100,
+            'Score: ',
+            { font: "24px Arial", fill: "#ff0044", align: "left" }
+        );
 
+        this.players[0].scoreText.anchor.set(0.5);
+
+        this.players[1].scoreText = game.add.text(
+            game.world.centerX + 200,
+            game.world.height -100,
+            'Score: ',
+            { font: "24px Arial", fill: "#ff0044", align: "left" }
+        );
+
+        this.players[1].scoreText.anchor.set(0.5);
     },
 
     debugState: function () {
@@ -319,6 +335,10 @@ gameState.prototype = {
                 image.scale.setTo(0.5, 0.5);
             }, this);
         }, this);
+
+        this.players.forEach(function (player) {
+            player.scoreText.text = "Score: " + player.score.powerLevel;
+        }, this)
     },
 
     update: function () {
