@@ -5,11 +5,11 @@ var instructionsState = function () {
 instructionsState.prototype = {
     init: function() {
         this.textConfig = {
-            font: "18px Arial",
-            fill: "#ff0044",
+            font: "32px Arial",
+            fill: "#E8EAF6",
             align: "center",
             wordWrap: true,
-            wordWrapWidth: 450
+            wordWrapWidth: 600
         };
         this.instructions = [];
         this.instructions[0] = "Choose who will be the player one.\ " +
@@ -34,6 +34,19 @@ instructionsState.prototype = {
             "When your mana pool is full and you have completed your artefact, you win the game!";
 
         this.textCounter = 0;
+
+        this.cursors = this.input.keyboard.createCursorKeys();
+        this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    },
+
+    preload: function() {
+        game.load.baseURL = 'assets/';
+        game.load.image('background', 'background.png');
+    },
+
+    create: function() {
+        this.background = game.add.tileSprite(0, 0, game.width, game.height, 'background');
+
         this.currentText = game.add.text(
             game.world.centerX,
             game.world.centerY,
@@ -41,15 +54,6 @@ instructionsState.prototype = {
             this.textConfig
         );
 
-        this.cursors = this.input.keyboard.createCursorKeys();
-        this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    },
-
-    preload: function() {
-
-    },
-
-    create: function() {
         this.currentText.anchor.set(0.5);
         this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
     },
