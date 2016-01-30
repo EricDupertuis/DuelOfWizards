@@ -101,7 +101,7 @@ ATTACK_CARDS = [
 ];
 
 ANTIARTIFACT_CARDS = [
-    createCard("antiartifact", "", antiArtifactEffect, 'antiartifact.jpg')
+    createCard("antiartifact", "", antiArtifactEffect, 'cards/antiartifact.png')
 ];
 
 DECK = _.union(ANTIARTIFACT_CARDS, ATTACK_CARDS, DEFENSE_CARDS, [
