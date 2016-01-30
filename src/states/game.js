@@ -179,7 +179,7 @@ gameState.prototype = {
         }, this);
 
         game.load.image('cards/back.png', 'cards/back.png')
-        game.load.image('background', 'background.jpg')
+        game.load.image('background', 'background.png')
 
         this.players.forEach(function(player) {
             name = 'pentagrams/' + player.faction;
@@ -192,7 +192,6 @@ gameState.prototype = {
     create: function () {
         // Background, must be first
         this.background = game.add.tileSprite(0, 0, game.width, game.height, 'background');
-        this.background.alpha = 0.2;
         this.players[0].healthbar = new HealthBar(this.game, {
             x: 2 * game.world.width / 12,
             y: 40,
