@@ -1,12 +1,14 @@
+var STATE_INIT = "init";
 var STATE_PICK = "pick";
 var STATE_ORDER = "order";
 var STATE_COMBAT = "combat";
+var STATE_WON = "won";
 
 var FACTIONS = ["Faction0", "Faction1"];
 
 var gameScore = function() {
-    this.powerLevel = 2;
-    this.hasArtifact = false;
+    this.powerLevel = 0;
+    this.hasArtifact = true;
 };
 
 var gameState = function () {
@@ -18,8 +20,6 @@ var gameState = function () {
 
     this.players.forEach(function(player) {
         player.keys = [];
-        player.hand = [];
-        player.combatOrderedHand = [];
         player.score = new gameScore();
     });
 
@@ -56,7 +56,7 @@ gameState.prototype = {
 
         this.currentPlayer = this.players[0];
 
-        this.gameState = STATE_PICK;
+        this.gameState = STATE_INIT;
 
         this.players[0].faction = FACTIONS[0];
         this.players[1].faction = FACTIONS[1];
@@ -66,7 +66,6 @@ gameState.prototype = {
     },
 
     create: function () {
-        this.booster = this.createBooster(this.deck);
         this.debugState();
     },
 
@@ -79,6 +78,9 @@ gameState.prototype = {
 
         console.log("Player 0's combat set: " + this.players[0].combatOrderedHand);
         console.log("Player 1's combat set: " + this.players[1].combatOrderedHand);
+
+        console.log("Player 1 score: " + this.players[0].score.powerLevel);
+        console.log("Player 2 score: " + this.players[1].score.powerLevel);
     },
 
 
@@ -88,6 +90,15 @@ gameState.prototype = {
                 entry.justDown;
             }, this);
         }, this);
+    },
+
+    handleInitPhase: function() {
+        this.players.forEach(function(player) {
+            player.hand = [];
+            player.combatOrderedHand = [];
+        });
+        this.booster = this.createBooster(this.deck);
+        this.gameState = STATE_PICK;
     },
 
     handlePickPhase: function () {
@@ -134,13 +145,26 @@ gameState.prototype = {
         _.map(_.zip(this.players[0].combatOrderedHand, this.players[1].combatOrderedHand), function(a) {
             a[0].effect(this.players[0], a[1]);
             a[1].effect(this.players[1], a[0]);
+
+            _.map(this.players, function(player) {
+                if (this.checkVictory(player)) {
+                    console.log(player.faction + " wins");
+                    this.gameState = STATE_WON;
+                }
+            }, this);
         }, this);
 
-        this.gameState = "error";
+        this.debugState();
+
+        if (this.gameState != STATE_WON) {
+            this.gameState = STATE_INIT;
+        }
     },
 
     update: function () {
-        if (this.gameState == STATE_PICK) {
+        if(this.gameState == STATE_INIT) {
+            this.handleInitPhase();
+        } else if (this.gameState == STATE_PICK) {
             this.handlePickPhase();
         } else if (this.gameState == STATE_ORDER) {
             this.handleOrderPhase();
@@ -173,5 +197,10 @@ gameState.prototype = {
             "faction": faction,
             "effect": effect
         }
+    },
+
+    // return true if given player wins
+    checkVictory: function (player) {
+        return player.score.powerLevel >= 6 && player.score.hasArtifact;
     }
 };
