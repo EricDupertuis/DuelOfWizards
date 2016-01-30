@@ -113,6 +113,9 @@ var gameState = function () {
     this.players[1] = [];
     this.currentPlayer = null;
 
+    this.players[0].otherPlayer = this.players[1];
+    this.players[1].otherPlayer = this.players[0];
+
     this.players.forEach(function (player) {
         player.keys = [];
         player.score = new gameScore();
@@ -206,7 +209,7 @@ gameState.prototype = {
                 if (i < this.booster.length) {
                     this.currentPlayer.hand.push(this.booster[i]);
                     this.booster.splice(i, 1);
-                    this.currentPlayer = this.otherPlayer(this.currentPlayer);
+                    this.currentPlayer = this.currentPlayer.otherPlayer;
                     this.debugState();
                 }
             }
@@ -232,10 +235,10 @@ gameState.prototype = {
         /* If the hand is empty switch to other player. If both hands are
          * empty, switch to combat phase. */
         if (this.currentPlayer.hand.length == 0) {
-            if (this.otherPlayer(this.currentPlayer).hand.length == 0) {
+            if (this.currentPlayer.otherPlayer.hand.length == 0) {
                 this.gameState = STATE_COMBAT;
             } else {
-                this.currentPlayer = this.otherPlayer(this.currentPlayer);
+                this.currentPlayer = this.currentPlayer.otherPlayer;
             }
         }
     },
@@ -275,14 +278,6 @@ gameState.prototype = {
         }
 
         this.clearAllKeypresses();
-    },
-
-    otherPlayer: function (player) {
-        if (player == this.players[0]) {
-            return this.players[1];
-        } else {
-            return this.players[0];
-        }
     },
 
     createBooster: function (deck) {
