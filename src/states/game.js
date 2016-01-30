@@ -181,6 +181,7 @@ gameState.prototype = {
         game.load.image('cards/back.png', 'cards/back.png')
         game.load.image('background', 'background.jpg')
 
+
         this.players.forEach(function(player) {
             name = 'pentagrams/' + player.faction;
             game.load.image(name, name + '.png');
@@ -188,6 +189,7 @@ gameState.prototype = {
             game.load.image(character, character + '.png');
         }, this);
 
+        game.load.audio('music', 'music.mp3');
     },
 
     create: function () {
@@ -234,6 +236,11 @@ gameState.prototype = {
         this.fadeIn = this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
 
         this.resolvingCardPicturesGroup = game.add.group();
+
+
+        music = game.add.audio('music');
+        music.loop = true;
+        music.play();
     },
 
     debugState: function () {
