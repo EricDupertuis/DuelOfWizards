@@ -48,12 +48,10 @@ menuState.prototype = {
             if (this.selectedMenu > 0) {
                 this.selectedMenu -= 1;
             }
-            console.log(this.selectedMenu);
         } else if (this.cursors.down.justDown) {
             if (this.selectedMenu < this.menuEntries.length - 1) {
                 this.selectedMenu += 1;
             }
-            console.log(this.selectedMenu);
         }
 
         this.menuEntries.forEach(function (entry, i) {
