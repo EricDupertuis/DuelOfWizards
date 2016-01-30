@@ -7,8 +7,8 @@ var STATE_WON = "won";
 var FACTIONS = ["Faction0", "Faction1"];
 
 // Effect is a function taking player and opponent card as parameters
-createCard = function(name, faction, effect) {
-    res =  {
+createCard = function (name, faction, effect) {
+    res = {
         "name": name,
         "faction": faction,
         "effect": effect
@@ -27,7 +27,7 @@ var powerLevelCardEffect = function (player, opponent, opponentCard) {
     }
 };
 
-var attackEffect = function(player, opponent, opponentCard) {
+var attackEffect = function (player, opponent, opponentCard) {
     console.log(this.name, DEFENSE_CARDS.indexOf(opponentCard));
     if (DEFENSE_CARDS.indexOf(opponentCard) != -1) {
         return;
@@ -101,7 +101,7 @@ DECK = _.union(ANTIARTIFACT_CARDS, ATTACK_CARDS, DEFENSE_CARDS, [
 ]);
 
 
-var gameScore = function() {
+var gameScore = function () {
     this.powerLevel = 2;
     this.hasArtifact = false;
 };
@@ -113,7 +113,7 @@ var gameState = function () {
     this.players[1] = [];
     this.currentPlayer = null;
 
-    this.players.forEach(function(player) {
+    this.players.forEach(function (player) {
         player.keys = [];
         player.score = new gameScore();
     });
@@ -156,8 +156,10 @@ gameState.prototype = {
     },
 
     debugState: function () {
-        prettyCards = function(p) {
-            return _.map(p, function (c) {return c.name}).join();
+        prettyCards = function (p) {
+            return _.map(p, function (c) {
+                return c.name
+            }).join();
         };
 
         console.log("State: " + this.gameState);
@@ -179,7 +181,7 @@ gameState.prototype = {
     },
 
 
-    clearAllKeypresses: function() {
+    clearAllKeypresses: function () {
         this.players.forEach(function (player) {
             player.keys.forEach(function (entry, i) {
                 entry.justDown;
@@ -187,8 +189,8 @@ gameState.prototype = {
         }, this);
     },
 
-    handleInitPhase: function() {
-        this.players.forEach(function(player) {
+    handleInitPhase: function () {
+        this.players.forEach(function (player) {
             player.hand = [];
             player.combatOrderedHand = [];
         });
@@ -215,7 +217,7 @@ gameState.prototype = {
         }
     },
 
-    handleOrderPhase: function() {
+    handleOrderPhase: function () {
         this.currentPlayer.keys.forEach(function (entry, i) {
             if (entry.justDown) {
                 if (i < this.currentPlayer.hand.length) {
@@ -238,12 +240,12 @@ gameState.prototype = {
         }
     },
 
-    handleCombatPhase: function() {
-        _.map(_.zip(this.players[0].combatOrderedHand, this.players[1].combatOrderedHand), function(a) {
+    handleCombatPhase: function () {
+        _.map(_.zip(this.players[0].combatOrderedHand, this.players[1].combatOrderedHand), function (a) {
             a[0].effect(this.players[0], this.players[1], a[1]);
             a[1].effect(this.players[1], this.players[0], a[0]);
 
-            _.map(this.players, function(player) {
+            _.map(this.players, function (player) {
                 if (this.checkVictory(player)) {
                     console.log(player.faction + " wins");
                     this.gameState = STATE_WON;
@@ -259,7 +261,7 @@ gameState.prototype = {
     },
 
     update: function () {
-        if(this.gameState == STATE_INIT) {
+        if (this.gameState == STATE_INIT) {
             this.handleInitPhase();
         } else if (this.gameState == STATE_PICK) {
             this.handlePickPhase();
