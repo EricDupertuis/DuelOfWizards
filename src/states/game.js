@@ -70,17 +70,21 @@ gameState.prototype = {
     },
 
     debugState: function () {
+        prettyCards = function(p) {
+            return _.map(p, function (c) {return c.name}).join();
+        };
+
         console.log("State: " + this.gameState);
-        console.log("Deck: " + this.deck[0].name);
-        console.log("Booster: " + this.booster);
-        console.log("Player 0's hand: " + this.players[0].hand);
-        console.log("Player 1's hand: " + this.players[1].hand);
+        console.log("Deck: " + prettyCards(this.deck));
+        console.log("Booster: " + prettyCards(this.booster));
+        console.log("Player 0's hand: " + prettyCards(this.players[0].hand));
+        console.log("Player 1's hand: " + prettyCards(this.players[1].hand));
 
-        console.log("Player 0's combat set: " + this.players[0].combatOrderedHand);
-        console.log("Player 1's combat set: " + this.players[1].combatOrderedHand);
+        console.log("Player 0's combat set: " + prettyCards(this.players[0].combatOrderedHand));
+        console.log("Player 1's combat set: " + prettyCards(this.players[1].combatOrderedHand));
 
-        console.log("Player 1 score: " + this.players[0].score.powerLevel);
-        console.log("Player 2 score: " + this.players[1].score.powerLevel);
+        console.log("Player 1 score: " + prettyCards(this.players[0].score.powerLevel));
+        console.log("Player 2 score: " + prettyCards(this.players[1].score.powerLevel));
     },
 
 
