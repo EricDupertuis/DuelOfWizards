@@ -178,6 +178,8 @@ gameState.prototype = {
             game.load.image(e.imageName, e.imageName);
         }, this);
 
+        game.load.image('cards/back.png', 'cards/back.png')
+        game.load.image('background', 'background.jpg')
 
         this.players.forEach(function(player) {
             name = 'pentagrams/' + player.faction;
@@ -189,6 +191,9 @@ gameState.prototype = {
     },
 
     create: function () {
+        // Background, must be first
+        this.background = game.add.tileSprite(0, 0, game.width, game.height, 'background');
+        this.background.alpha = 0.2;
         this.players[0].healthbar = new HealthBar(this.game, {
             x: 2 * game.world.width / 12,
             y: 40,
@@ -225,6 +230,7 @@ gameState.prototype = {
 
         this.players[1].characterSprite.x = game.world.width;
         this.players[1].characterSprite.anchor.setTo(1, 1);
+
     },
 
     debugState: function () {
@@ -381,10 +387,17 @@ gameState.prototype = {
 
             player.hand.forEach(function(card, i){
                 var x = (2 * i +1) * game.world.width/10;
+                var y = 3 * game.world.width / 16;
                 if (player == this.players[1]) {
                     x = game.world.width - x;
                 }
-                var image = player.handImageGroup.create(x, 3 * game.world.width/16, card.imageName);
+                var image;
+
+                if (player == this.currentPlayer) {
+                    image = player.handImageGroup.create(x, y, card.imageName);
+                } else {
+                    image = player.handImageGroup.create(x, y, 'cards/back.png');
+                }
                 image.anchor.setTo(0.5, 0.5);
                 image.scale.setTo(0.3, 0.3);
             }, this);
