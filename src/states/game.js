@@ -364,8 +364,9 @@ gameState.prototype = {
             this.boosterImageGroup = game.add.group();
 
             this.booster.forEach(function(card, i){
-                card.image = this.boosterImageGroup.create(i * 100, 30, card.imageName);
-                card.image.scale.setTo(0.5, 0.5);
+                card.image = this.boosterImageGroup.create(game.world.width/2, (2 * i + 1) * game.world.height / 10, card.imageName);
+                card.image.anchor.setTo(0.5, 0.5);
+                card.image.scale.setTo(0.2, 0.2);
             }, this);
         }
 
