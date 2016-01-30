@@ -6,8 +6,67 @@ var STATE_WON = "won";
 
 var FACTIONS = ["Faction0", "Faction1"];
 
+// Effect is a function taking player and opponent card as parameters
+createCard = function(name, faction, effect) {
+    res =  {
+        "name": name,
+        "faction": faction,
+        "effect": effect
+    }
+
+    res.effect = _.bind(effect, res);
+
+    return res;
+};
+
+var powerLevelCardEffect = function (player, opponent, opponentCard) {
+    if (player.faction == this.faction) {
+        player.score.powerLevel += 2;
+    } else {
+        player.score.powerLevel += 1;
+    }
+};
+
+var attackEffect = function(player, opponent, opponentCard) {
+    console.log(this.name, DEFENSE_CARDS.indexOf(opponentCard));
+    if (DEFENSE_CARDS.indexOf(opponentCard) != -1) {
+        return;
+    }
+
+    if (player.faction == this.faction) {
+        opponent.score.powerLevel -= 3;
+    } else {
+        opponent.score.powerLevel -= 2;
+    }
+
+    if (opponent.score.powerLevel < 0) {
+        opponent.score.powerLevel = 0;
+    }
+}
+
+var defenseEffect = function (player, opponent, opponentCard) {
+
+};
+
+
+DEFENSE_CARDS = [
+    createCard("Team0 defense", FACTIONS[0], defenseEffect),
+    createCard("Team1 defense", FACTIONS[1], defenseEffect),
+    createCard("neutral defense", "", defenseEffect),
+]
+
+DECK = DEFENSE_CARDS.concat([
+    createCard("Team0 up", FACTIONS[0], powerLevelCardEffect),
+    createCard("Team1 up", FACTIONS[1], powerLevelCardEffect),
+    createCard("neutral up", "", powerLevelCardEffect),
+    createCard("Team0 attack", FACTIONS[0], attackEffect),
+    createCard("Team1 attack", FACTIONS[1], attackEffect),
+    createCard("neutral attack", "", attackEffect),
+]);
+
+
 var gameScore = function() {
-    this.powerLevel = 0;
+    this.powerLevel = 2;
     this.hasArtifact = true;
 };
 
@@ -25,15 +84,7 @@ var gameState = function () {
 
     this.booster = null;
 
-    //Just temp to simulate deck shuffle
-    this.testCard = this.createCard('test', FACTIONS[0], function(player, opponentCard){
-        player.score.powerLevel = player.score.powerLevel + 1;
-    });
-    this.deck = [];
-
-    for (var i = 1; i <= 30; i++) {
-        this.deck.push(this.testCard);
-    }
+    this.deck = DECK;
 };
 
 
@@ -66,7 +117,6 @@ gameState.prototype = {
     },
 
     create: function () {
-        this.debugState();
     },
 
     debugState: function () {
@@ -83,8 +133,8 @@ gameState.prototype = {
         console.log("Player 0's combat set: " + prettyCards(this.players[0].combatOrderedHand));
         console.log("Player 1's combat set: " + prettyCards(this.players[1].combatOrderedHand));
 
-        console.log("Player 1 score: " + prettyCards(this.players[0].score.powerLevel));
-        console.log("Player 2 score: " + prettyCards(this.players[1].score.powerLevel));
+        console.log("Player 1 score: " + this.players[0].score.powerLevel);
+        console.log("Player 2 score: " + this.players[1].score.powerLevel);
     },
 
 
@@ -103,6 +153,8 @@ gameState.prototype = {
         });
         this.booster = this.createBooster(this.deck);
         this.gameState = STATE_PICK;
+        this.debugState();
+
     },
 
     handlePickPhase: function () {
@@ -147,8 +199,8 @@ gameState.prototype = {
 
     handleCombatPhase: function() {
         _.map(_.zip(this.players[0].combatOrderedHand, this.players[1].combatOrderedHand), function(a) {
-            a[0].effect(this.players[0], a[1]);
-            a[1].effect(this.players[1], a[0]);
+            a[0].effect(this.players[0], this.players[1], a[1]);
+            a[1].effect(this.players[1], this.players[0], a[0]);
 
             _.map(this.players, function(player) {
                 if (this.checkVictory(player)) {
@@ -192,15 +244,6 @@ gameState.prototype = {
 
     createBooster: function (deck) {
         return _.sample(deck, 5);
-    },
-
-    // Effect is a function taking player and opponent card as parameters
-    createCard: function(name, faction, effect) {
-        return {
-            "name": name,
-            "faction": faction,
-            "effect": effect
-        }
     },
 
     // return true if given player wins
