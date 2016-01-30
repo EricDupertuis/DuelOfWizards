@@ -88,9 +88,9 @@ var jockerEffect = function (player, opponentCard) {
 
 
 DEFENSE_CARDS = [
-    createCard("Team0 defense", FACTIONS[0], defenseEffect, 'characters/Drudru.png'),
-    createCard("Team1 defense", FACTIONS[1], defenseEffect, 'characters/Drudru.png'),
-    createCard("neutral defense", "", defenseEffect, 'characters/Drudru.png')
+    createCard("Team0 defense", FACTIONS[0], defenseEffect, 'characters/Druids.png'),
+    createCard("Team1 defense", FACTIONS[1], defenseEffect, 'characters/Druids.png'),
+    createCard("neutral defense", "", defenseEffect, 'characters/Druids.png')
 ];
 
 ATTACK_CARDS = [
@@ -104,9 +104,9 @@ ANTIARTIFACT_CARDS = [
 ];
 
 DECK = _.union(ANTIARTIFACT_CARDS, ATTACK_CARDS, DEFENSE_CARDS, [
-    createCard("Team0 up", FACTIONS[0], powerLevelCardEffect, 'characters/Maya.png'),
-    createCard("Team1 up", FACTIONS[1], powerLevelCardEffect, 'characters/Maya.png'),
-    createCard("neutral up", "", powerLevelCardEffect, 'characters/Maya.png'),
+    createCard("Team0 up", FACTIONS[0], powerLevelCardEffect, 'characters/Mayans.png'),
+    createCard("Team1 up", FACTIONS[1], powerLevelCardEffect, 'characters/Mayans.png'),
+    createCard("neutral up", "", powerLevelCardEffect, 'characters/Mayans.png'),
     createCard("Team0 artifact", FACTIONS[0], artifactEffect, 'robotTest.png'),
     createCard("Team1 artifact", FACTIONS[1], artifactEffect, 'robotTest.png'),
     createCard("Joker", "", jockerEffect, 'characters/joker.png'),
@@ -182,28 +182,32 @@ gameState.prototype = {
         this.players.forEach(function(player) {
             name = 'pentagrams/' + player.faction;
             game.load.image(name, name + '.png');
+            character = 'characters/' + player.faction;
+            game.load.image(character, character + '.png');
         }, this);
 
     },
 
     create: function () {
-        this.players[0].healthbar = new HealthBar(this.game, {x: 2 * game.world.width/12,
-                                                              y: 40,
-                                                              animationDuration: 0.01,
-                                                              width: game.world.width/3,
-                                                              bar: {color: "#ecf0f1" },
-                                                              bg: {color: "#34495e"},
-
-                                                              height: 20,
+        this.players[0].healthbar = new HealthBar(this.game, {
+            x: 2 * game.world.width / 12,
+            y: 40,
+            animationDuration: 0.01,
+            width: game.world.width / 3,
+            height: 20,
+            bar: {color: "#ecf0f1"},
+            bg: {color: "#34495e"}
         });
-        this.players[1].healthbar = new HealthBar(this.game, {x: 10 * game.world.width/12,
-                                                              y: 40,
-                                                              animationDuration: 0.01,
-                                                              width: game.world.width/3,
-                                                              height: 20,
-                                                              bar: {color: "#ecf0f1" },
-                                                              bg: {color: "#34495e"},
-                                                              flipped:true});
+        this.players[1].healthbar = new HealthBar(this.game, {
+            x: 10 * game.world.width / 12,
+            y: 40,
+            animationDuration: 0.01,
+            width: game.world.width / 3,
+            height: 20,
+            bar: {color: "#ecf0f1"},
+            bg: {color: "#34495e"},
+            flipped: true
+        });
 
         this.players.forEach(function(player) {
             player.artifactSprite = game.add.image(game.world.width / 2 - 100, 50,
