@@ -13,7 +13,8 @@ createCard = function (name, faction, effect) {
     res = {
         "name": name,
         "faction": faction,
-        "effect": effect
+        "effect": effect,
+        "imageName": 'robotTest.jpg'
     };
 
     res.effect = _.bind(effect, res);
@@ -163,9 +164,16 @@ gameState.prototype = {
     },
 
     preload: function () {
+        // base assets path
+        game.load.baseURL = 'assets/';
+
+        this.deck.forEach(function(e){
+            game.load.image(e.imageName, e.imageName);
+        }, this);
     },
 
     create: function () {
+
     },
 
     debugState: function () {
@@ -275,6 +283,12 @@ gameState.prototype = {
     },
 
     update: function () {
+        if (this.booster) {
+            this.booster.forEach(function(card, i){
+                card.image = game.add.image(i * 0.1, 0, card.imageName);
+            }, this);
+        }
+
         if (this.gameState == STATE_INIT) {
             this.handleInitPhase();
         } else if (this.gameState == STATE_PICK) {
