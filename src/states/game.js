@@ -393,8 +393,10 @@ gameState.prototype = {
 
         this.players.forEach(function (player) {
             player.healthbar.setPercent(100 * player.score.powerLevel / MAX_POWER_LEVEL);
-        }, this)
+        }, this);
 
+        this.currentPlayer.characterSprite.alpha = 1.;
+        this.currentPlayer.otherPlayer.characterSprite.alpha = 0.5;
     },
 
     update: function () {
