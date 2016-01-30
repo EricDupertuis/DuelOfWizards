@@ -55,6 +55,12 @@ var defenseEffect = function (player, opponent, opponentCard) {
     }
 };
 
+var jockerEffect = function (player, opponent, opponentCard) {
+    newcard = _.sample(DECK, 1)[0];
+    console.log("Joker: " + newcard.name);
+    newcard.effect(player, opponent, opponentCard);
+};
+
 
 DEFENSE_CARDS = [
     createCard("Team0 defense", FACTIONS[0], defenseEffect),
@@ -71,7 +77,8 @@ ATTACK_CARDS = [
 DECK = ATTACK_CARDS.concat(DEFENSE_CARDS.concat([
     createCard("Team0 up", FACTIONS[0], powerLevelCardEffect),
     createCard("Team1 up", FACTIONS[1], powerLevelCardEffect),
-    createCard("neutral up", "", powerLevelCardEffect)
+    createCard("neutral up", "", powerLevelCardEffect),
+    createCard("Joker", "", jockerEffect),
 ]));
 
 
