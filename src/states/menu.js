@@ -68,9 +68,13 @@ menuState.prototype = {
                 this.fadeExit.onComplete.add(function(){
                     this.game.state.start("Game");
                 }, this);
+            } else if (this.selectedMenu == 1) {
+                this.fadeExit = this.game.add.tween(this.game.world).to( { alpha: 0 }, 500, "Linear", true );
+                this.fadeExit.onComplete.add(function(){
+                    this.game.state.start("Instructions");
+                }, this);
             } else {
-                //@TODO Change for another state when ready
-                console.log('Game instruction');
+                console.log('Index matches nothing bro :/ ');
             }
         }
     }

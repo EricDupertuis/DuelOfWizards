@@ -187,7 +187,6 @@ gameState.prototype = {
             character = 'characters/' + player.faction;
             game.load.image(character, character + '.png');
         }, this);
-
     },
 
     create: function () {
