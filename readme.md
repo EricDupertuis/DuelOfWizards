@@ -9,13 +9,16 @@ Install all dependencies
     bower install
     
 Game Concept :
-    - A.Chappuis
-    - M.Brochut
+
+- A.Chappuis
+- M.Brochut
 
 Graphics:
-    - C.Sengelen
-    - L.Melchiorre
+
+- C.Sengelen
+- L.Melchiorre
     
 Programming:
-    - A.Albertelli
-    - E.Dupertuis
+
+- A.Albertelli
+- E.Dupertuis
