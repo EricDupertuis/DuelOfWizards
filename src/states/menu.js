@@ -43,7 +43,7 @@ menuState.prototype = {
         };
 
         this.keysText[0] = "SPACE to select or continue";
-        this.keysText[1] = "UP and DOWN to move";
+        this.keysText[1] = "UP, DOWN, LEFT and RIGHT to move";
         this.keysText[2] = "Z to zoom on cards";
 
         this.menuEntries[0] = game.add.text(
