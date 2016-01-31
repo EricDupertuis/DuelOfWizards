@@ -36,7 +36,7 @@ endState.prototype = {
             this.fadeExit = this.game.add.tween(this.game.world)
                                           .to( { alpha: 0 }, 500, "Linear", true );
             this.fadeExit.onComplete.add(function(){
-                game.state.start("Menu");
+                game.state.start("Score");
             }, this);
             sprite.destroy();
         }, this);
