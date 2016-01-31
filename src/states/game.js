@@ -425,19 +425,19 @@ gameState.prototype = {
 
                     if (card == this.booster[0]) {
                         x = game.world.width/2 - 50;
-                        y = 200;
+                        y = 190;
                     } else if (card == this.booster[1]) {
                         x = game.world.width/2 + 50;
-                        y = 200;
+                        y = 190;
                     } else if (card == this.booster[2]) {
                         x = game.world.width/2;
-                        y = 350;
+                        y = 300;
                     } else if (card == this.booster[3]) {
                         x = game.world.width/2 - 50;
-                        y = 500;
+                        y = 410;
                     } else if (card == this.booster[4]) {
                         x = game.world.width/2 + 50;
-                        y = 500;
+                        y = 410;
                     }
 
                     card.image = this.boosterImageGroup.create(x, y, card.imageName);
@@ -462,9 +462,9 @@ gameState.prototype = {
             player.hand.forEach(function(card, i){
                 var x;
                 if (player == this.players[0]) {
-                    x = (2 * i + 1) * game.world.width/10;
+                    x = (3 * i + 2) * game.world.width/20;
                 } else {
-                    x = (2 * i + 7) * game.world.width/10;
+                    x = (3 * i + 15) * game.world.width/20;
                 }
                 var y = 3 * game.world.width / 16;
                 var image;
