@@ -43,7 +43,7 @@ instructionsState.prototype = {
     preload: function() {
         game.load.baseURL = 'assets/';
         game.load.image('background', 'background.png');
-        game.load.image('instruction', 'instructions.png');
+        game.load.image('instructions', 'instructions.png');
     },
 
     create: function() {
@@ -64,12 +64,14 @@ instructionsState.prototype = {
         if (this.enterKey.justDown) {
             if (this.textCounter < this.instructions.length - 1) {
                 this.textCounter += 1;
-
                 if (this.textCounter == 7) {
-
-                };
-
-                this.currentText.text = this.instructions[this.textCounter];
+                    var instructionsImage = game.add.image(game.world.width / 2, game.world.height / 2, 'instructions');
+                    instructionsImage.anchor.setTo(0.5, 0.5);
+                    instructionsImage.scale.setTo(0.95, 0.95);
+                    this.currentText.destroy();
+                } else {
+                    this.currentText.text = this.instructions[this.textCounter];
+                }
             } else {
                 this.fadeExit = this.game.add.tween(this.game.world).to( { alpha: 0 }, 500, "Linear", true );
                 this.fadeExit.onComplete.add(function(){
