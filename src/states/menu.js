@@ -13,6 +13,9 @@ menuState.prototype = {
         this.selectedMenu = 0;
         this.fadeExit = null;
         this.menuTitle = null;
+
+        this.keysText = [];
+        this.textConfig = null;
     },
 
     preload: function () {
@@ -31,10 +34,21 @@ menuState.prototype = {
         this.background.autoScroll(-20, 0);
         this.background.alpha = 0.6;
 
+        this.textConfig = {
+            font: "16px Arial",
+            fill: "#E8EAF6",
+            align: "center",
+            wordWrap: true,
+            wordWrapWidth: 600
+        };
+
+        this.keysText[0] = "SPACE to select or continue";
+        this.keysText[1] = "UP and DOWN to move";
+        this.keysText[2] = "Z to zoom on cards";
 
         this.menuEntries[0] = game.add.text(
             game.world.centerX,
-            400,
+            350,
             'New Game',
             {font: "35px Arial", fill: "#ecf0f1", align: "center"}
         );
@@ -42,13 +56,13 @@ menuState.prototype = {
 
         this.menuEntries[1] = game.add.text(
             game.world.centerX,
-            450,
+            400,
             'Game instructions',
             {font: "35px Arial", fill: "#ecf0f1", align: "center"}
         );
         this.menuEntries[1].anchor.setTo(0.5);
 
-        this.menuTitle = game.add.image(game.world.width / 2 - 170, 100, 'title');
+        this.menuTitle = game.add.image(game.world.width / 2 - 170, 50, 'title');
 
         this.menuMusic = game.add.audio('menuMusic');
         this.menuMusic.loop = true;
@@ -56,6 +70,15 @@ menuState.prototype = {
         console.log('Play menu music');
 
         this.fadeIn = this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
+
+        this.keysText.forEach(function (text, i) {
+            game.add.text(
+                game.world.centerX,
+                475 + (25 * i),
+                this.keysText[i],
+                this.textConfig
+            ).anchor.set(0.5);
+        }, this);
     },
 
     update: function () {
