@@ -5,9 +5,9 @@ Project for the 2016 Global Game Jam
 It's always better to run a Phaser app from a webserver.
 
 Install all dependencies
-    
+
     bower install
-    
+
 Game Concept :
 
 - A.Chappuis
@@ -15,10 +15,10 @@ Game Concept :
 
 Graphics:
 
-- C.Sengelen
-- L.Melchiorre
-    
+- C.Sengelen (http://nectartstudio.ch)
+- L.Melchiorre (http://lionel-melchiorre.ch)
+
 Programming:
 
-- A.Albertelli
-- E.Dupertuis
+- A.Albertelli (@antoinealb)
+- E.Dupertuis (@EricDupertuis)
