@@ -26,7 +26,7 @@ createCard = function (name, faction, effect, imageName) {
 
 var powerLevelCardEffect = function (player, opponentCard) {
     if (player.faction == this.faction) {
-        player.score.powerLevel += 2;
+        player.score.powerLevel += 3;
     } else {
         player.score.powerLevel += 1;
     }
@@ -58,9 +58,9 @@ var defenseEffect = function (player, opponentCard) {
         return;
     }
     if (player.faction == this.faction) {
-        player.score.powerLevel += 2;
+        player.score.powerLevel += 3;
     } else {
-        player.score.powerLevel += 1;
+        player.score.powerLevel += 2;
     }
 
     if (player.score.powerLevel > MAX_POWER_LEVEL) {
@@ -91,12 +91,16 @@ var jockerEffect = function (player, opponentCard) {
 DEFENSE_CARDS = [
     createCard("Team0 defense", FACTIONS[0], defenseEffect, 'cards/defense/Mayans.png'),
     createCard("Team1 defense", FACTIONS[1], defenseEffect, 'cards/defense/Satan.png'),
+    createCard("neutral defense", "", defenseEffect, 'cards/defense/Neutral.png'),
+    createCard("neutral defense", "", defenseEffect, 'cards/defense/Neutral.png'),
     createCard("neutral defense", "", defenseEffect, 'cards/defense/Neutral.png')
 ];
 
 ATTACK_CARDS = [
     createCard("Team0 attack", FACTIONS[0], attackEffect, 'cards/attacks/Mayans.png'),
     createCard("Team1 attack", FACTIONS[1], attackEffect, 'cards/attacks/Satan.png'),
+    createCard("neutral attack", "", attackEffect, 'cards/attacks/Neutral.png'),
+    createCard("neutral attack", "", attackEffect, 'cards/attacks/Neutral.png'),
     createCard("neutral attack", "", attackEffect, 'cards/attacks/Neutral.png')
 ];
 
@@ -108,8 +112,17 @@ DECK = _.union(ANTIARTIFACT_CARDS, ATTACK_CARDS, DEFENSE_CARDS, [
     createCard("Team0 up", FACTIONS[0], powerLevelCardEffect, 'cards/power_ups/' + FACTIONS[0] + '.png'),
     createCard("Team1 up", FACTIONS[1], powerLevelCardEffect, 'cards/power_ups/' + FACTIONS[1] + '.png'),
     createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
+    createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
+    createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
+    createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
+    createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
+    createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
+    createCard("Team0 artifact", FACTIONS[0], artifactEffect, 'cards/artifacts/Mayans.png'),
     createCard("Team0 artifact", FACTIONS[0], artifactEffect, 'cards/artifacts/Mayans.png'),
     createCard("Team1 artifact", FACTIONS[1], artifactEffect, 'cards/artifacts/Satan.png'),
+    createCard("Team1 artifact", FACTIONS[1], artifactEffect, 'cards/artifacts/Satan.png'),
+    createCard("Joker", "", jockerEffect, 'cards/joker.png'),
+    createCard("Joker", "", jockerEffect, 'cards/joker.png'),
     createCard("Joker", "", jockerEffect, 'cards/joker.png')
 ]);
 
