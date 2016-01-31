@@ -27,20 +27,21 @@ menuState.prototype = {
         this.background = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'fog');
         this.background.scale.setTo(2, 2);
         this.background.autoScroll(-20, 0);
+        this.background.alpha = 0.6;
 
         this.menuEntries[0] = game.add.text(
             game.world.centerX,
-            250,
+            275,
             'New Game',
-            {font: "35px Arial", fill: "#000", align: "center"}
+            {font: "35px Arial", fill: "#ecf0f1", align: "center"}
         );
         this.menuEntries[0].anchor.set(0.5);
 
         this.menuEntries[1] = game.add.text(
             game.world.centerX,
-            350,
+            325,
             'Game instructions',
-            {font: "35px Arial", fill: "#000", align: "center"}
+            {font: "35px Arial", fill: "#ecf0f1", align: "center"}
         );
         this.menuEntries[1].anchor.set(0.5);
 
