@@ -6,5 +6,6 @@ game.state.add("Menu", menuState);
 game.state.add("Instructions", instructionsState);
 game.state.add("Game", gameState);
 game.state.add("End", endState);
+game.state.add("Score", scoreState);
 
 game.state.start('Menu');
