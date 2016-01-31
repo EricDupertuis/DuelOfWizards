@@ -158,6 +158,8 @@ var gameState = function () {
 
     this.deck = DECK;
     this.currentSelectedCard = 0;
+
+    this.gameMusic = null;
 };
 
 
@@ -202,7 +204,7 @@ gameState.prototype = {
             game.load.image(character, character + '.png');
         }, this);
 
-        game.load.audio('music', 'music.mp3');
+        game.load.audio('gameMusic', 'music/night_runner.mp3');
     },
 
     create: function () {
@@ -250,9 +252,9 @@ gameState.prototype = {
         this.resolvingCardPicturesGroup = game.add.group();
 
 
-        music = game.add.audio('music');
-        music.loop = true;
-        music.play();
+        this.gameMusic = game.add.audio('gameMusic');
+        this.gameMusic.loop = true;
+        this.gameMusic.play();
     },
 
     debugState: function () {
@@ -547,6 +549,7 @@ gameState.prototype = {
         } else if (this.gameState == STATE_COMBAT) {
             this.handleCombatPhase();
         } else if (this.gameState == STATE_WON) {
+            this.gameMusic.fadeOut(900);
             this.fadeExit = this.game.add.tween(this.game.world).to( { alpha: 0 }, 500, "Linear", true );
             this.fadeExit.onComplete.add(function(){
                 this.game.state.start("End");
