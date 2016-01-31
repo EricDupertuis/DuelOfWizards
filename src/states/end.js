@@ -28,7 +28,7 @@ endState.prototype = {
                                     fatalities_name);
         sprite.anchor.setTo(0.5, 0.5);
         var anim = sprite.animations.add(fatalities_name);
-        sprite.animations.play(fatalities_name, 5);;
+        sprite.animations.play(fatalities_name, 2);;
 
         anim.onComplete.add(function (sprite, animation) {
             this.fadeExit = this.game.add.tween(this.game.world)
