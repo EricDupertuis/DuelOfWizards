@@ -20,5 +20,5 @@ Graphics:
 
 Programming:
 
-- A.Albertelli (@antoinealb)
-- E.Dupertuis (@EricDupertuis)
+- A.Albertelli ([@antoinealb](https://github.com/antoinealb))
+- E.Dupertuis ([@EricDupertuis](https://github.com/EricDupertuis))
