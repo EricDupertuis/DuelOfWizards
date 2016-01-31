@@ -549,8 +549,8 @@ gameState.prototype = {
         } else if (this.gameState == STATE_COMBAT) {
             this.handleCombatPhase();
         } else if (this.gameState == STATE_WON) {
-            this.gameMusic.fadeOut(900);
-            this.fadeExit = this.game.add.tween(this.game.world).to( { alpha: 0 }, 500, "Linear", true );
+            this.gameMusic.fadeOut(1000);
+            this.fadeExit = this.game.add.tween(this.game.world).to( { alpha: 0 }, 1000, "Linear", true );
             this.fadeExit.onComplete.add(function(){
                 this.game.state.start("End");
             }, this);

@@ -12,12 +12,12 @@ menuState.prototype = {
         this.menuEntries[1] = null;
         this.selectedMenu = 0;
         this.fadeExit = null
-        this.menuMusic = null;
     },
 
     preload: function () {
         game.load.baseURL = 'assets/';
         this.load.image('fog', 'fog.png');
+
         game.load.audio('menuMusic', 'music/lost_frontier.mp3');
     },
 
