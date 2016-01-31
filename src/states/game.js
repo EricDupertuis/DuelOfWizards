@@ -6,7 +6,7 @@ var STATE_WON = "won";
 var STATE_ANIMATION_HOLD = "animation";
 var DARKEN_ALPHA = 0.6;
 
-var FACTIONS = ["Mayans", "Druids"];
+var FACTIONS = ["Mayans", "Satan"];
 
 var MAX_POWER_LEVEL = 6;
 
@@ -26,7 +26,7 @@ createCard = function (name, faction, effect, imageName) {
 
 var powerLevelCardEffect = function (player, opponentCard) {
     if (player.faction == this.faction) {
-        player.score.powerLevel += 2;
+        player.score.powerLevel += 3;
     } else {
         player.score.powerLevel += 1;
     }
@@ -58,9 +58,9 @@ var defenseEffect = function (player, opponentCard) {
         return;
     }
     if (player.faction == this.faction) {
-        player.score.powerLevel += 2;
+        player.score.powerLevel += 3;
     } else {
-        player.score.powerLevel += 1;
+        player.score.powerLevel += 2;
     }
 
     if (player.score.powerLevel > MAX_POWER_LEVEL) {
@@ -91,26 +91,39 @@ var jockerEffect = function (player, opponentCard) {
 DEFENSE_CARDS = [
     createCard("Team0 defense", FACTIONS[0], defenseEffect, 'cards/defense/Mayans.png'),
     createCard("Team1 defense", FACTIONS[1], defenseEffect, 'cards/defense/Satan.png'),
+    createCard("neutral defense", "", defenseEffect, 'cards/defense/Neutral.png'),
+    createCard("neutral defense", "", defenseEffect, 'cards/defense/Neutral.png'),
     createCard("neutral defense", "", defenseEffect, 'cards/defense/Neutral.png')
 ];
 
 ATTACK_CARDS = [
     createCard("Team0 attack", FACTIONS[0], attackEffect, 'cards/attacks/Mayans.png'),
     createCard("Team1 attack", FACTIONS[1], attackEffect, 'cards/attacks/Satan.png'),
+    createCard("neutral attack", "", attackEffect, 'cards/attacks/Neutral.png'),
+    createCard("neutral attack", "", attackEffect, 'cards/attacks/Neutral.png'),
     createCard("neutral attack", "", attackEffect, 'cards/attacks/Neutral.png')
 ];
 
 ANTIARTIFACT_CARDS = [
-    createCard("antiartifact", "", antiArtifactEffect, 'antiartifact.jpg')
+    createCard("antiartifact", "", antiArtifactEffect, 'cards/antiartifact.png')
 ];
 
 DECK = _.union(ANTIARTIFACT_CARDS, ATTACK_CARDS, DEFENSE_CARDS, [
     createCard("Team0 up", FACTIONS[0], powerLevelCardEffect, 'cards/power_ups/' + FACTIONS[0] + '.png'),
     createCard("Team1 up", FACTIONS[1], powerLevelCardEffect, 'cards/power_ups/' + FACTIONS[1] + '.png'),
     createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
-    createCard("Team0 artifact", FACTIONS[0], artifactEffect, 'cards/artifacts/' + FACTIONS[0] + '.png'),
-    createCard("Team1 artifact", FACTIONS[1], artifactEffect, 'cards/artifacts/' + FACTIONS[1] + '.png'),
-    createCard("Joker", "", jockerEffect, 'characters/joker.png')
+    createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
+    createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
+    createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
+    createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
+    createCard("neutral up", "", powerLevelCardEffect, 'cards/power_ups/Neutral.png'),
+    createCard("Team0 artifact", FACTIONS[0], artifactEffect, 'cards/artifacts/Mayans.png'),
+    createCard("Team0 artifact", FACTIONS[0], artifactEffect, 'cards/artifacts/Mayans.png'),
+    createCard("Team1 artifact", FACTIONS[1], artifactEffect, 'cards/artifacts/Satan.png'),
+    createCard("Team1 artifact", FACTIONS[1], artifactEffect, 'cards/artifacts/Satan.png'),
+    createCard("Joker", "", jockerEffect, 'cards/joker.png'),
+    createCard("Joker", "", jockerEffect, 'cards/joker.png'),
+    createCard("Joker", "", jockerEffect, 'cards/joker.png')
 ]);
 
 
@@ -179,7 +192,7 @@ gameState.prototype = {
         }, this);
 
         game.load.image('cards/back.png', 'cards/back.png')
-        game.load.image('background', 'background.jpg')
+        game.load.image('background', 'background.png')
 
 
         this.players.forEach(function(player) {
@@ -195,7 +208,6 @@ gameState.prototype = {
     create: function () {
         // Background, must be first
         this.background = game.add.tileSprite(0, 0, game.width, game.height, 'background');
-        this.background.alpha = 0.2;
         this.players[0].healthbar = new HealthBar(this.game, {
             x: 2 * game.world.width / 12,
             y: 40,
@@ -220,7 +232,7 @@ gameState.prototype = {
             player.artifactSprite = game.add.image(game.world.width / 2 - 100, 50,
                                                             'pentagrams/' + player.faction);
 
-            player.artifactSprite.scale.setTo(0.2, 0.2);
+            player.artifactSprite.scale.setTo(0.1, 0.1);
             player.artifactSprite.anchor.setTo(0.5, 0.5);
 
             player.characterSprite = game.add.image(0, game.world.height, 'characters/' + player.faction);
@@ -416,7 +428,27 @@ gameState.prototype = {
                 this.boosterImageGroup = game.add.group();
 
                 this.booster.forEach(function(card, i){
-                    card.image = this.boosterImageGroup.create(game.world.width/2, (2 * i + 1) * game.world.height / 10, card.imageName);
+                    var x = null;
+                    var y = null;
+
+                    if (card == this.booster[0]) {
+                        x = game.world.width/2 - 50;
+                        y = 200;
+                    } else if (card == this.booster[1]) {
+                        x = game.world.width/2 + 50;
+                        y = 200;
+                    } else if (card == this.booster[2]) {
+                        x = game.world.width/2;
+                        y = 350;
+                    } else if (card == this.booster[3]) {
+                        x = game.world.width/2 - 50;
+                        y = 500;
+                    } else if (card == this.booster[4]) {
+                        x = game.world.width/2 + 50;
+                        y = 500;
+                    }
+
+                    card.image = this.boosterImageGroup.create(x, y, card.imageName);
                     card.image.anchor.setTo(0.5, 0.5);
                     card.image.scale.setTo(0.2, 0.2);
                     if (i != this.currentSelectedCard) {
