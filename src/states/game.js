@@ -398,11 +398,16 @@ gameState.prototype = {
 
         anim.onComplete.add(function (sprite, animation) {
             this.gameState = this.previousGameState;
+            this.diff_a_text.destroy();
+            this.diff_b_text.destroy();
             sprite.destroy();
         }, this);
     },
 
     handleCombatPhase: function () {
+        var prev_score_a = this.players[0].score.powerLevel;
+        var prev_score_b = this.players[1].score.powerLevel;
+
         a = this.players[0].combatOrderedHand.splice(0, 1)[0];
         b = this.players[1].combatOrderedHand.splice(0, 1)[0];
 
@@ -431,6 +436,46 @@ gameState.prototype = {
         a.effect(this.players[0], b, this.resolvingCardPicturesGroup);
         b.effect(this.players[1], a, this.resolvingCardPicturesGroup);
 
+        textConfig = {
+            font: "100px Arial",
+            fill: "#ecf0f1",
+            align: "center",
+            wordWrap: true,
+            wordWrapWidth: 600
+        };
+
+        var texta, textb;
+
+        prev_score_a = this.players[0].score.powerLevel - prev_score_a;
+
+        if (prev_score_a > 0) {
+            texta = "+" + prev_score_a;
+        } else {
+            texta = prev_score_a;
+        }
+
+        prev_score_b = this.players[1].score.powerLevel - prev_score_b;
+
+        if (prev_score_b > 0) {
+            textb = "+" + prev_score_b;
+        } else {
+            textb = prev_score_b;
+        }
+
+
+        this.diff_a_text = game.add.text(
+            game.world.width / 6,
+            80,
+            texta,
+            textConfig
+        );
+
+        this.diff_b_text = game.add.text(
+            5 * game.world.width / 6,
+            80,
+            textb,
+            textConfig
+        );
 
         _.map(this.players, function (player) {
             if (this.checkVictory(player)) {
