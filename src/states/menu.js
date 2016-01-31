@@ -17,7 +17,7 @@ menuState.prototype = {
     preload: function () {
         game.load.baseURL = 'assets/';
         this.load.image('fog', 'fog.png');
-        game.load.audio('menuMusic', 'music/lost_frontier.mp3');
+        game.load.audio('menuMusic', 'music/lost_frontier.ogg');
     },
 
     create: function () {

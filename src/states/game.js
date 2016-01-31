@@ -212,7 +212,7 @@ gameState.prototype = {
             game.load.image(character, character + '.png');
         }, this);
 
-        game.load.audio('gameMusic', 'music/night_runner.mp3');
+        game.load.audio('gameMusic', 'music/night_runner.ogg');
     },
 
     create: function () {
