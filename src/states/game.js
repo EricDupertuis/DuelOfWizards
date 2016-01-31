@@ -420,7 +420,27 @@ gameState.prototype = {
                 this.boosterImageGroup = game.add.group();
 
                 this.booster.forEach(function(card, i){
-                    card.image = this.boosterImageGroup.create(game.world.width/2, (2 * i + 1) * game.world.height / 10, card.imageName);
+                    var x = null;
+                    var y = null;
+
+                    if (card == this.booster[0]) {
+                        x = game.world.width/2 - 50;
+                        y = 200;
+                    } else if (card == this.booster[1]) {
+                        x = game.world.width/2 + 50;
+                        y = 200;
+                    } else if (card == this.booster[2]) {
+                        x = game.world.width/2;
+                        y = 350;
+                    } else if (card == this.booster[3]) {
+                        x = game.world.width/2 - 50;
+                        y = 500;
+                    } else if (card == this.booster[4]) {
+                        x = game.world.width/2 + 50;
+                        y = 500;
+                    }
+
+                    card.image = this.boosterImageGroup.create(x, y, card.imageName);
                     card.image.anchor.setTo(0.5, 0.5);
                     card.image.scale.setTo(0.2, 0.2);
                     if (i != this.currentSelectedCard) {
