@@ -1,0 +1,13 @@
+{
+  "name": "phaser-healthbar",
+  "homepage": "https://github.com/bmarwane/phaser.healthbar",
+  "_release": "608c7f0daa",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "608c7f0daaa3771881f020e3443677aa532bcb27"
+  },
+  "_source": "https://github.com/bmarwane/phaser.healthbar.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/bmarwane/phaser.healthbar.git"
+}
