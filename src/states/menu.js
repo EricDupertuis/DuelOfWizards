@@ -11,12 +11,14 @@ menuState.prototype = {
         this.menuEntries[0] = null;
         this.menuEntries[1] = null;
         this.selectedMenu = 0;
-        this.fadeExit = null
+        this.fadeExit = null;
+        this.menuTitle = null;
     },
 
     preload: function () {
         game.load.baseURL = 'assets/';
-        this.load.image('fog', 'fog.png');
+        game.load.image('fog', 'fog.png');
+        game.load.image('title', 'logo_page_titre.png')
         game.load.audio('menuMusic', 'music/lost_frontier.ogg');
     },
 
@@ -29,9 +31,10 @@ menuState.prototype = {
         this.background.autoScroll(-20, 0);
         this.background.alpha = 0.6;
 
+
         this.menuEntries[0] = game.add.text(
             game.world.centerX,
-            275,
+            400,
             'New Game',
             {font: "35px Arial", fill: "#ecf0f1", align: "center"}
         );
@@ -39,11 +42,13 @@ menuState.prototype = {
 
         this.menuEntries[1] = game.add.text(
             game.world.centerX,
-            325,
+            450,
             'Game instructions',
             {font: "35px Arial", fill: "#ecf0f1", align: "center"}
         );
-        this.menuEntries[1].anchor.set(0.5);
+        this.menuEntries[1].anchor.setTo(0.5);
+
+        this.menuTitle = game.add.image(game.world.width / 2 - 170, 100, 'title');
 
         this.menuMusic = game.add.audio('menuMusic');
         this.menuMusic.loop = true;

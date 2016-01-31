@@ -201,8 +201,8 @@ gameState.prototype = {
             game.load.image(e.imageName, e.imageName);
         }, this);
 
-        game.load.image('cards/back.png', 'cards/back.png')
-        game.load.image('background', 'background.png')
+        game.load.image('cards/back.png', 'cards/back.png');
+        game.load.image('background', 'background.png');
 
 
         this.players.forEach(function(player) {
