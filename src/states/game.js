@@ -158,6 +158,8 @@ var gameState = function () {
 
     this.deck = DECK;
     this.currentSelectedCard = 0;
+
+    this.gameMusic = null;
 };
 
 
@@ -179,6 +181,14 @@ gameState.prototype = {
         this.zoomOnSelectedCard = false;
         this.zoomedInCard = null;
         this.toogleZoomKey = game.input.keyboard.addKey(Phaser.Keyboard.Z);
+
+        // Reinitalize scores if we came from a winning screen
+        this.players.forEach(function (player) {
+            player.score = new gameScore();
+            player.hand = [];
+            player.combatOrderedHand = [];
+        });
+
     },
 
     preload: function () {
@@ -194,12 +204,15 @@ gameState.prototype = {
         game.load.image('cards/back.png', 'cards/back.png')
         game.load.image('background', 'background.png')
 
+
         this.players.forEach(function(player) {
             name = 'pentagrams/' + player.faction;
             game.load.image(name, name + '.png');
             character = 'characters/' + player.faction;
             game.load.image(character, character + '.png');
         }, this);
+
+        game.load.audio('gameMusic', 'music/night_runner.ogg');
     },
 
     create: function () {
@@ -245,6 +258,12 @@ gameState.prototype = {
         this.fadeIn = this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
 
         this.resolvingCardPicturesGroup = game.add.group();
+
+
+        this.gameMusic = game.add.audio('gameMusic');
+        this.gameMusic.loop = true;
+        this.gameMusic.play();
+        console.log('Play game music');
     },
 
     debugState: function () {
@@ -425,19 +444,19 @@ gameState.prototype = {
 
                     if (card == this.booster[0]) {
                         x = game.world.width/2 - 50;
-                        y = 200;
+                        y = 190;
                     } else if (card == this.booster[1]) {
                         x = game.world.width/2 + 50;
-                        y = 200;
+                        y = 190;
                     } else if (card == this.booster[2]) {
                         x = game.world.width/2;
-                        y = 350;
+                        y = 300;
                     } else if (card == this.booster[3]) {
                         x = game.world.width/2 - 50;
-                        y = 500;
+                        y = 410;
                     } else if (card == this.booster[4]) {
                         x = game.world.width/2 + 50;
-                        y = 500;
+                        y = 410;
                     }
 
                     card.image = this.boosterImageGroup.create(x, y, card.imageName);
@@ -462,9 +481,9 @@ gameState.prototype = {
             player.hand.forEach(function(card, i){
                 var x;
                 if (player == this.players[0]) {
-                    x = (2 * i + 1) * game.world.width/10;
+                    x = (3 * i + 2) * game.world.width/20;
                 } else {
-                    x = (2 * i + 7) * game.world.width/10;
+                    x = (3 * i + 15) * game.world.width/20;
                 }
                 var y = 3 * game.world.width / 16;
                 var image;
@@ -540,10 +559,13 @@ gameState.prototype = {
         } else if (this.gameState == STATE_COMBAT) {
             this.handleCombatPhase();
         } else if (this.gameState == STATE_WON) {
-            this.fadeExit = this.game.add.tween(this.game.world).to( { alpha: 0 }, 500, "Linear", true );
+            this.gameMusic.fadeOut(600);
+            this.fadeExit = this.game.add.tween(this.game.world).to( { alpha: 0 }, 1000, "Linear", true );
             this.fadeExit.onComplete.add(function(){
                 this.game.state.start("End");
             }, this);
+        } else if (this.gameState == STATE_ANIMATION_HOLD) {
+            // don't do shit;
         } else {
             console.log("Unknown state: " + this.gameState);
         }
