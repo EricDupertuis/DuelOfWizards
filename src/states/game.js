@@ -179,6 +179,14 @@ gameState.prototype = {
         this.zoomOnSelectedCard = false;
         this.zoomedInCard = null;
         this.toogleZoomKey = game.input.keyboard.addKey(Phaser.Keyboard.Z);
+
+        // Reinitalize scores if we came from a winning screen
+        this.players.forEach(function (player) {
+            player.score = new gameScore();
+            player.hand = [];
+            player.combatOrderedHand = [];
+        });
+
     },
 
     preload: function () {
