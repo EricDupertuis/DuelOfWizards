@@ -382,9 +382,9 @@ gameState.prototype = {
         var img_b = this.resolvingCardPicturesGroup.create(8 * game.world.width / 10, game.world.height / 2, b.imageName);
 
         img_a.anchor.setTo(0.5, 0.5);
-        img_a.scale.setTo(0.4, 0.4);
+        img_a.scale.setTo(0.2, 0.2);
         img_b.anchor.setTo(0.5, 0.5);
-        img_b.scale.setTo(0.4, 0.4);
+        img_b.scale.setTo(0.2, 0.2);
 
 
         _.map(this.players, function (player) {
@@ -442,7 +442,7 @@ gameState.prototype = {
 
                     card.image = this.boosterImageGroup.create(x, y, card.imageName);
                     card.image.anchor.setTo(0.5, 0.5);
-                    card.image.scale.setTo(0.2, 0.2);
+                    card.image.scale.setTo(0.1, 0.1);
                     if (i != this.currentSelectedCard) {
                         card.image.alpha = DARKEN_ALPHA;
                     }
@@ -478,7 +478,7 @@ gameState.prototype = {
                     image = player.handImageGroup.create(x, y, 'cards/back.png');
                 }
                 image.anchor.setTo(0.5, 0.5);
-                image.scale.setTo(0.3, 0.3);
+                image.scale.setTo(0.15, 0.15);
             }, this);
 
             player.combatOrderedHand.forEach(function(card, i){
@@ -491,7 +491,7 @@ gameState.prototype = {
                 y = 300 + 120 * i;
                 var image = player.handImageGroup.create(x, y, 'cards/back.png');
                 image.anchor.setTo(0.5, 0.5);
-                image.scale.setTo(0.2, 0.2);
+                image.scale.setTo(0.1, 0.1);
             }, this);
 
             player.artifactSprite.visible = player.score.hasArtifact;
@@ -525,6 +525,7 @@ gameState.prototype = {
         }
         this.zoomedInCardImage = game.add.image(game.world.width / 2, game.world.height / 2, card.imageName);
         this.zoomedInCardImage.anchor.setTo(0.5, 0.5);
+        this.zoomedInCardImage.scale.setTo(0.5, 0.5);
         this.zoomedInCardImage.visible = this.zoomOnSelectedCard;
 },
 
