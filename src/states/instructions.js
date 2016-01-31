@@ -32,6 +32,7 @@ instructionsState.prototype = {
         this.instructions[5] = "A new booster will be created and this time the player who didn't begin will chose first and we restart phases.";
         this.instructions[6] = "When there is not enough cards to generate a booster, all cards will be shuffle together and a new booster will be available.\ " +
             "When your mana pool is full and you have completed your artefact, you win the game!";
+        this.instructions[7] = null;
 
         this.textCounter = 0;
 
@@ -42,6 +43,7 @@ instructionsState.prototype = {
     preload: function() {
         game.load.baseURL = 'assets/';
         game.load.image('background', 'background.png');
+        game.load.image('instruction', 'instructions.png');
     },
 
     create: function() {
@@ -62,6 +64,11 @@ instructionsState.prototype = {
         if (this.enterKey.justDown) {
             if (this.textCounter < this.instructions.length - 1) {
                 this.textCounter += 1;
+
+                if (this.textCounter == 7) {
+
+                };
+
                 this.currentText.text = this.instructions[this.textCounter];
             } else {
                 this.fadeExit = this.game.add.tween(this.game.world).to( { alpha: 0 }, 500, "Linear", true );
