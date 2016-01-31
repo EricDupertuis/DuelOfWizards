@@ -181,6 +181,14 @@ gameState.prototype = {
         this.zoomOnSelectedCard = false;
         this.zoomedInCard = null;
         this.toogleZoomKey = game.input.keyboard.addKey(Phaser.Keyboard.Z);
+
+        // Reinitalize scores if we came from a winning screen
+        this.players.forEach(function (player) {
+            player.score = new gameScore();
+            player.hand = [];
+            player.combatOrderedHand = [];
+        });
+
     },
 
     preload: function () {
@@ -393,9 +401,9 @@ gameState.prototype = {
         var img_b = this.resolvingCardPicturesGroup.create(8 * game.world.width / 10, game.world.height / 2, b.imageName);
 
         img_a.anchor.setTo(0.5, 0.5);
-        img_a.scale.setTo(0.4, 0.4);
+        img_a.scale.setTo(0.2, 0.2);
         img_b.anchor.setTo(0.5, 0.5);
-        img_b.scale.setTo(0.4, 0.4);
+        img_b.scale.setTo(0.2, 0.2);
 
 
         _.map(this.players, function (player) {
@@ -436,24 +444,24 @@ gameState.prototype = {
 
                     if (card == this.booster[0]) {
                         x = game.world.width/2 - 50;
-                        y = 200;
+                        y = 190;
                     } else if (card == this.booster[1]) {
                         x = game.world.width/2 + 50;
-                        y = 200;
+                        y = 190;
                     } else if (card == this.booster[2]) {
                         x = game.world.width/2;
-                        y = 350;
+                        y = 300;
                     } else if (card == this.booster[3]) {
                         x = game.world.width/2 - 50;
-                        y = 500;
+                        y = 410;
                     } else if (card == this.booster[4]) {
                         x = game.world.width/2 + 50;
-                        y = 500;
+                        y = 410;
                     }
 
                     card.image = this.boosterImageGroup.create(x, y, card.imageName);
                     card.image.anchor.setTo(0.5, 0.5);
-                    card.image.scale.setTo(0.2, 0.2);
+                    card.image.scale.setTo(0.1, 0.1);
                     if (i != this.currentSelectedCard) {
                         card.image.alpha = DARKEN_ALPHA;
                     }
@@ -473,9 +481,9 @@ gameState.prototype = {
             player.hand.forEach(function(card, i){
                 var x;
                 if (player == this.players[0]) {
-                    x = (2 * i + 1) * game.world.width/10;
+                    x = (3 * i + 2) * game.world.width/20;
                 } else {
-                    x = (2 * i + 7) * game.world.width/10;
+                    x = (3 * i + 15) * game.world.width/20;
                 }
                 var y = 3 * game.world.width / 16;
                 var image;
@@ -489,7 +497,7 @@ gameState.prototype = {
                     image = player.handImageGroup.create(x, y, 'cards/back.png');
                 }
                 image.anchor.setTo(0.5, 0.5);
-                image.scale.setTo(0.3, 0.3);
+                image.scale.setTo(0.15, 0.15);
             }, this);
 
             player.combatOrderedHand.forEach(function(card, i){
@@ -502,7 +510,7 @@ gameState.prototype = {
                 y = 300 + 120 * i;
                 var image = player.handImageGroup.create(x, y, 'cards/back.png');
                 image.anchor.setTo(0.5, 0.5);
-                image.scale.setTo(0.2, 0.2);
+                image.scale.setTo(0.1, 0.1);
             }, this);
 
             player.artifactSprite.visible = player.score.hasArtifact;
@@ -536,6 +544,7 @@ gameState.prototype = {
         }
         this.zoomedInCardImage = game.add.image(game.world.width / 2, game.world.height / 2, card.imageName);
         this.zoomedInCardImage.anchor.setTo(0.5, 0.5);
+        this.zoomedInCardImage.scale.setTo(0.5, 0.5);
         this.zoomedInCardImage.visible = this.zoomOnSelectedCard;
 },
 
