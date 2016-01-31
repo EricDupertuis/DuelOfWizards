@@ -554,6 +554,8 @@ gameState.prototype = {
             this.fadeExit.onComplete.add(function(){
                 this.game.state.start("End");
             }, this);
+        } else if (this.gameState == STATE_ANIMATION_HOLD) {
+            // don't do shit;
         } else {
             console.log("Unknown state: " + this.gameState);
         }

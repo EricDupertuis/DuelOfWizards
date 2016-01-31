@@ -13,6 +13,10 @@ endState.prototype = {
     },
 
     create: function() {
+
+        this.fadeIn = this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
+
+
         var fatalities_name = 'fatalities/' + this.game.winner.faction;
         console.log(fatalities_name);
 
