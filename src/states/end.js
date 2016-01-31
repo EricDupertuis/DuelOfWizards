@@ -4,6 +4,7 @@ var endState = function () {
 
 endState.prototype = {
     init: function() {
+        this.endFadeIn = null;
     },
 
     preload: function() {
@@ -13,10 +14,6 @@ endState.prototype = {
     },
 
     create: function() {
-
-        this.fadeIn = this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
-
-
         var fatalities_name = 'fatalities/' + this.game.winner.faction;
         console.log(fatalities_name);
 
@@ -38,6 +35,8 @@ endState.prototype = {
             }, this);
             sprite.destroy();
         }, this);
+
+        this.endFadeIn = this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
     },
 
     update: function() {

@@ -17,7 +17,6 @@ menuState.prototype = {
     preload: function () {
         game.load.baseURL = 'assets/';
         this.load.image('fog', 'fog.png');
-
         game.load.audio('menuMusic', 'music/lost_frontier.mp3');
     },
 
@@ -48,6 +47,7 @@ menuState.prototype = {
         this.menuMusic = game.add.audio('menuMusic');
         this.menuMusic.loop = true;
         this.menuMusic.play();
+        console.log('Play menu music');
 
         this.fadeIn = this.game.add.tween(this.game.world).to( { alpha: 1 }, 500, "Linear", true );
     },
@@ -73,6 +73,7 @@ menuState.prototype = {
         if (this.goKey.justDown) {
             if (this.selectedMenu == 0) {
                 this.menuMusic.fadeOut(500);
+                console.log('fadeOut menuMusic');
                 this.fadeExit = this.game.add.tween(this.game.world).to( { alpha: 0 }, 500, "Linear", true );
                 this.fadeExit.onComplete.add(function(){
                     this.game.state.start("Game");

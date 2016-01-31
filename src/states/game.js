@@ -255,6 +255,7 @@ gameState.prototype = {
         this.gameMusic = game.add.audio('gameMusic');
         this.gameMusic.loop = true;
         this.gameMusic.play();
+        console.log('Play game music');
     },
 
     debugState: function () {
@@ -549,7 +550,7 @@ gameState.prototype = {
         } else if (this.gameState == STATE_COMBAT) {
             this.handleCombatPhase();
         } else if (this.gameState == STATE_WON) {
-            this.gameMusic.fadeOut(1000);
+            this.gameMusic.fadeOut(600);
             this.fadeExit = this.game.add.tween(this.game.world).to( { alpha: 0 }, 1000, "Linear", true );
             this.fadeExit.onComplete.add(function(){
                 this.game.state.start("End");
