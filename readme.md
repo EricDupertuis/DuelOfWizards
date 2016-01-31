@@ -22,3 +22,10 @@ Programming:
 
 - A.Albertelli ([@antoinealb](https://github.com/antoinealb))
 - E.Dupertuis ([@EricDupertuis](https://github.com/EricDupertuis))
+
+Music:
+
+- *Lost Frontier* by Kevin MacLeod (incompetech.com)
+- *Night Runner* by Jason Shaw (audionautix.com)
+
+Both musics are under a CC-BY 3.0 license
