@@ -81,10 +81,25 @@ var antiArtifactEffect = function (player, opponentCard) {
     player.otherPlayer.score.hasArtifact = false;
 };
 
-var jockerEffect = function (player, opponentCard) {
+var jockerEffect = function (player, opponentCard, imageGroup) {
     newcard = _.sample(DECK, 1)[0];
     console.log("Joker: " + newcard.name);
-    newcard.effect(player, opponentCard);
+    newcard.effect(player, opponentCard, imageGroup);
+
+    var img, x, y;
+
+    if (player.faction == FACTIONS[0]) {
+        x = 2 * game.world.width / 10;
+    } else {
+        x = 8 * game.world.width / 10;
+    }
+    y = game.world.height / 2;
+
+    console.log(this);
+    img = imageGroup.create(x, y, newcard.imageName);
+
+    img.anchor.setTo(0.3, 0.3);
+    img.scale.setTo(0.2, 0.2);
 };
 
 
@@ -379,7 +394,7 @@ gameState.prototype = {
         var sprite = game.add.image(game.world.width / 2, game.world.height / 2, 'explosion1');
         sprite.anchor.setTo(0.5, 0.5);
         var anim = sprite.animations.add('explosion1');
-        sprite.animations.play('explosion1', 10);
+        sprite.animations.play('explosion1', 8);
 
         anim.onComplete.add(function (sprite, animation) {
             this.gameState = this.previousGameState;
@@ -391,11 +406,9 @@ gameState.prototype = {
         a = this.players[0].combatOrderedHand.splice(0, 1)[0];
         b = this.players[1].combatOrderedHand.splice(0, 1)[0];
 
-        a.effect(this.players[0], b);
-        b.effect(this.players[1], a);
-
         this.resolvingCardPicturesGroup.destroy();
         this.resolvingCardPicturesGroup = game.add.group();
+
 
         var img_a = this.resolvingCardPicturesGroup.create(2 * game.world.width / 10, game.world.height / 2, a.imageName);
         var img_b = this.resolvingCardPicturesGroup.create(8 * game.world.width / 10, game.world.height / 2, b.imageName);
@@ -404,6 +417,19 @@ gameState.prototype = {
         img_a.scale.setTo(0.2, 0.2);
         img_b.anchor.setTo(0.5, 0.5);
         img_b.scale.setTo(0.2, 0.2);
+
+        if (a.name == "Joker") {
+            img_a.alpha = 0.6;
+        }
+
+        if (b.name == "Joker") {
+            img_b.alpha = 0.6;
+        }
+
+        // Dirty hack to be able to draw card from joker
+
+        a.effect(this.players[0], b, this.resolvingCardPicturesGroup);
+        b.effect(this.players[1], a, this.resolvingCardPicturesGroup);
 
 
         _.map(this.players, function (player) {
